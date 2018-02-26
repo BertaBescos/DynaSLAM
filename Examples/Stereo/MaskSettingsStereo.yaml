@@ -1,0 +1,5 @@
+%YAML:1.0
+py_path: "/home/berta/Documents/ORB1/src/python/"
+module_name: "MaskRCNN"
+class_name: "MaskStereo"
+get_dyn_seg: "GetDynSegStereo"
