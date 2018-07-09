@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # DynSLAM
 **Authors:** [Berta Bescos](http://webdiis.unizar.es/~bbescos/), [JM. Facil](http://webdiis.unizar.es/~jmfacil/), [J. Neira](http://webdiis.unizar.es/~neira/) and [Javier Civera](http://webdiis.unizar.es/~jcivera/)
 =======
@@ -20,7 +19,6 @@ alt="ORB-SLAM2" width="240" height="180" border="10" /></a>
 
 ### Related Publications:
 
-<<<<<<< HEAD
 =======
 DynSLAM
 
