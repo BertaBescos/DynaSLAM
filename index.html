@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-124765894-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-124765894-2');
+</script>
+<link rel="shortcut icon" type="image/png" href="imgs/BB.png"/>
+<style type="text/css">
+* {box-sizing: border-box;}
+  .img-comp-container {
+	position: relative;
+	height: 250px; /*should be the same height as the images*/
+  }
+  .img-comp-img {
+	position: absolute;
+	width: auto;
+	height: auto;
+	overflow:hidden;
+  }
+  .img-comp-img img {
+	display:block;
+	vertical-align:middle;
+  }
+  .img-comp-slider {
+	position: absolute;
+	z-index:9;
+	cursor: ew-resize;
+	/*set the appearance of the slider:*/
+	width: 40px;
+	height: 40px;
+	background-color: #2196F3;
+	opacity: 0.9;
+	border-radius: 50%;
+.videoWrapper {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 */
+  padding-top: 25px;
+  height: 0;
+}
+.videoWrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}	
+</style>
+<script>
+  function initComparisons() {
+	var x, i;
+	/*find all elements with an "overlay" class:*/
+	x = document.getElementsByClassName("img-comp-overlay");
+	for (i = 0; i < x.length; i++) {
+	  /*once for each "overlay" element:
+	  pass the "overlay" element as a parameter when executing the compareImages function:*/
+	  compareImages(x[i]);
+	}
+	function compareImages(img) {
+	  var slider, img, clicked = 0, w, h;
+	  /*get the width and height of the img element*/
+	  w = img.offsetWidth;
+	  h = img.offsetHeight;
+	  /*set the width of the img element to 50%:*/
+	  img.style.width = (w / 2) + "px";
+	  /*create slider:*/
+	  slider = document.createElement("DIV");
+	  slider.setAttribute("class", "img-comp-slider");
+	  /*insert slider*/
+	  img.parentElement.insertBefore(slider, img);
+	  /*position the slider in the middle:*/
+	  slider.style.top = (h / 2) - (slider.offsetHeight / 2) + "px";
+	  slider.style.left = (w / 2) - (slider.offsetWidth / 2) + "px";
+	  /*execute a function when the mouse button is pressed:*/
+	  slider.addEventListener("mousedown", slideReady);
+	  /*and another function when the mouse button is released:*/
+	  window.addEventListener("mouseup", slideFinish);
+	  /*or touched (for touch screens:*/
+	  slider.addEventListener("touchstart", slideReady);
+	  /*and released (for touch screens:*/
+	  window.addEventListener("touchstop", slideFinish);
+	  function slideReady(e) {
+		/*prevent any other actions that may occur when moving over the image:*/
+		e.preventDefault();
+		/*the slider is now clicked and ready to move:*/
+		clicked = 1;
+		/*execute a function when the slider is moved:*/
+		window.addEventListener("mousemove", slideMove);
+		window.addEventListener("touchmove", slideMove);
+	  }
+	  function slideFinish() {
+		/*the slider is no longer clicked:*/
+		clicked = 0;
+	  }
+	  function slideMove(e) {
+		var pos;
+		/*if the slider is no longer clicked, exit this function:*/
+		if (clicked == 0) return false;
+		/*get the cursor's x position:*/
+		pos = getCursorPos(e)
+		/*prevent the slider from being positioned outside the image:*/
+		if (pos < 0) pos = 0;
+		if (pos > w) pos = w;
+		/*execute a function that will resize the overlay image according to the cursor:*/
+		slide(pos);
+	  }
+	  function getCursorPos(e) {
+		var a, x = 0;
+		e = e || window.event;
+		/*get the x positions of the image:*/
+		a = img.getBoundingClientRect();
+		/*calculate the cursor's x coordinate, relative to the image:*/
+		x = e.pageX - a.left;
+		/*consider any page scrolling:*/
+		x = x - window.pageXOffset;
+		return x;
+	  }
+	  function slide(x) {
+		/*resize the image:*/
+		img.style.width = x + "px";
+		/*position the slider:*/
+		slider.style.left = img.offsetWidth - (slider.offsetWidth / 2) + "px";
+	  }
+	}
+  }
+</script>
+</head>
+<title>DynaSLAM</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<body>
+
+<!-- Navbar (sit on top) -->
+<div class="w3-top">
+  <div class="w3-bar w3-white w3-wide w3-padding w3-card">
+	<a href="#home" class="w3-bar-item w3-button w3-hide-small"><b>Empty</b> Cities</a>
+	<!-- Float links to the right. Hide them on small screens -->
+	<div class="w3-right w3-hide-small">
+	  <a href="#abstract" class="w3-bar-item w3-button">Abstract</a>
+	  <a href="#code" class="w3-bar-item w3-button">Code</a>
+	  <a href="#video" class="w3-bar-item w3-button">Video</a>
+	  <a href="#dataset" class="w3-bar-item w3-button">Dataset</a>
+	  <a href="#paper" class="w3-bar-item w3-button">Paper</a>
+	</div>
+  </div>
+</div>
+
+<!-- Header -->
+<header class="w3-display-container w3-content w3-wide" style="max-width:1500px;" id="home">
+  <img class="w3-image" src="imgs/DynamicObjectsInvariantSpace.png" alt="Teaser Image" width="1500" height="800">
+  <div class="w3-display-middle w3-margin-top w3-center">
+	<h1 class="w3-xxlarge w3-text-white"><span class="w3-padding w3-blue w3-hide-small w3-opacity-min"><b>Empty</b>Cities</span></h1>
+  </div>
+  <div class="w3-display-topmiddle w3-margin-top w3-center">
+	<h1 class="w3-xxlarge w3-text-white"><span class="w3-padding w3-blue w3-hide-medium w3-hide-large w3-opacity-min"><b>Empty</b>Cities</span></h1>
+  </div>
+  <p><center>DynaSLAM: Tracking, Mapping and Inpainting in Dynamic Scenes</center></p>  
+  <p><center><a onclick="window.open(this.href); return false;" title="https://BertaBescos.github.io" href="https://BertaBescos.github.io" onkeypress="window.open(this.href); return false;">Berta Bescos</a>, 
+	<a onclick="window.open(this.href); return false;" title="http://webdiis.unizar.es/~jmfacil/" href="http://webdiis.unizar.es/~jmfacil/" onkeypress="window.open(this.href); return false;">Jose M. Facil</a>, 
+	<a onclick="window.open(this.href); return false;" title="http://webdiis.unizar.es/~jcivera/" href="http://webdiis.unizar.es/~jcivera/" onkeypress="window.open(this.href); return false;">Javier Civera</a>,  
+	<a onclick="window.open(this.href); return false;" title="http://webdiis.unizar.es/~neira/" href="http://webdiis.unizar.es/~neira/" onkeypress="window.open(this.href); return false;">Jose Neira</a>    
+  </center></p>
+  <p><center>University of Zaragoza, Spain</center></p>
+  <p><center>RA-L and IROS 2018</center></p>
+</header>
+
+<!-- Page content -->
+<div class="w3-content w3-padding" style="max-width:1564px">
+
+  <!-- Abstract Section -->
+  <div class="w3-container w3-padding-32" id="abstract">
+	<h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Abstract</h3>
+	<p align="justify">In this paper we present an end-to-end deep learning framework to turn images that show dynamic content, such as 
+	  vehicles or pedestrians, into realistic static frames. This objective encounters two main challenges: detecting the 
+	  dynamic objects, and inpainting the static occluded background. 
+	  The second challenge is approached with a conditional generative adversarial model that, taking as input the original 
+	  dynamic image and the computed dynamic/static binary mask, is capable of generating the final static image. The former 
+	  challenge is addressed by the use of a convolutional network that learns a multi-class semantic segmentation of the 
+	  image. The objective of this network is producing an accurate segmentation and helping the previous generative model 
+	  to output a realistic static image. These generated images can be used for applications such as virtual reality or 
+	  vision-based robot localization purposes. To validate our approach, we show both qualitative and quantitative 
+	  comparisons with other methods by removing the dynamic objects and hallucinating (inpainting) the static structure 
+	  behind them.
+	</p>
+  <p align="justify">
+	Check some of our results on images coming from the driving simulator 
+	<a onclick="window.open(this.href); return false;" title="http://carla.org/" href="http://carla.org/" onkeypress="window.open(this.href); return false;">CARLA</a>. 
+	  <b>Slide the blue button to see the input and output of our framework.</b>
+	  <br>
+	  
+  <div class="w3-row-padding">
+	<div class="w3-col l3 m6 w3-margin-bottom">
+	  <div class="w3-display-container">
+		<div class="img-comp-container">
+		  <div class="img-comp-img">
+			<img src="imgs/input.png" width="300" height="250">
+		  </div>
+		  <div class="img-comp-img img-comp-overlay">
+			<img src="imgs/output.png" width="300" height="250">
+		  </div>
+		</div>
+	  </div>
+	</div>
+	<div class="w3-col l3 m6 w3-margin-bottom">
+	  <div class="w3-display-container">
+		<div class="img-comp-container">
+		  <div class="img-comp-img">
+			<img src="imgs/input2.png" width="300" height="250">
+		  </div>
+		  <div class="img-comp-img img-comp-overlay">
+			<img src="imgs/output2.png" width="300" height="250">
+		  </div>
+		</div>
+	  </div>
+	</div>
+	<div class="w3-col l3 m6 w3-margin-bottom">
+	  <div class="w3-display-container">
+		<div class="img-comp-container">
+		  <div class="img-comp-img">
+			<img src="imgs/input3.png" width="300" height="250">
+		  </div>
+		  <div class="img-comp-img img-comp-overlay">
+			<img src="imgs/output3.png" width="300" height="250">
+		  </div>
+		</div>
+	  </div>
+	</div>
+	<div class="w3-col l3 m6 w3-margin-bottom">
+	  <div class="w3-display-container">
+		<div class="img-comp-container">
+		  <div class="img-comp-img">
+			<img src="imgs/input4.png" width="300" height="250">
+		  </div>
+		  <div class="img-comp-img img-comp-overlay">
+			<img src="imgs/output4.png" width="300" height="250">
+		  </div>
+		</div>
+		<script>
+		  /*Execute a function that will execute an image compare function for each element with the img-comp-overlay class:*/
+		  initComparisons();
+		</script>
+	  </div>
+	</div>
+  </div>
+</div>
+  
+<!-- Code Section -->
+<div class="w3-container w3-padding-32" id="code">
+  <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Try Our Code</h3>
+  <input type="checkbox" checked="checked" onclick="return false">
+	<b>Torch:</b> you can clone our GitHub repository 
+	<a onclick="window.open(this.href); return false;" title="https://github.com/BertaBescos/EmptyCities" href="https://github.com/BertaBescos/EmptyCities" onkeypress="window.open(this.href); return false;">here</a> 
+	<br>
+  <input type="checkbox" onclick="return false">
+  <b>PyTorch:</b> we are currently working on this implementation
+</div>
+  
+<!-- Video Section -->
+<div class="w3-container w3-padding-32" id="video">
+  <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Check Out Our Video</h3>
+  	<div class="videoWrapper">
+  	<center>
+  		<!-- Copy & Pasted from YouTube -->
+  		<iframe width="1380" height="750" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+  	</center>
+  	</div>
+</div>  
+  
+<!-- Dataset Section -->
+<div class="w3-container w3-padding-32" id="dataset">
+  <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Dataset</h3>
+  <p align="justify">In our GitHub page we have some scripts available to generate the dataset with 
+  <a onclick="window.open(this.href); return false;" title="http://carla.org/" href="http://carla.org/" onkeypress="window.open(this.href); return false;">CARLA</a>. 
+  Also, you can download a small dataset from <a onclick="window.open(this.href); return false;" title="dataset" href="https://drive.google.com/open?id=1XkgElMx4kgyhSNWgoarhBvKKDLuYkJ2o" onkeypress="window.open(this.href); return false;">here</a>. 
+	  Note that this dataset is valid for testing, but it contains very few images for training.</p>
+	  <p>
+	  	Here we show 4 examples of the training data format. These images are sourced from the CARLA driving simulator:
+	  </p>
+<div class="w3-row-padding">
+	<div class="w3-col l3 m6 w3-margin-bottom">
+		<div class="w3-display-container">
+			<img class="w3-image" src="imgs/4.png" alt="DatasetImage" width="600" height="450">
+	  	</div>
+  	</div>
+  	<div class="w3-col l3 m6 w3-margin-bottom">
+		<div class="w3-display-container">
+			<img class="w3-image" src="imgs/1130.png" alt="DatasetImage" width="600" height="450">
+	  	</div>
+  	</div>
+  	<div class="w3-col l3 m6 w3-margin-bottom">
+		<div class="w3-display-container">
+			<img class="w3-image" src="imgs/387.png" alt="DatasetImage" width="600" height="450">
+	  	</div>
+  	</div>
+  	<div class="w3-col l3 m6 w3-margin-bottom">
+		<div class="w3-display-container">
+			<img class="w3-image" src="imgs/97.png" alt="DatasetImage" width="600" height="450">
+	  	</div>
+  	</div>
+</div>
+
+</div> 
+	
+ <!-- Paper Section -->
+<div class="w3-container w3-padding-32" id="paper">
+  <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Paper</h3>
+
+  	You can download our arXiv paper from HERE. When using this paper in your research, we will be happy if you cite us :) <br> <br>
+	<code>
+@inproceedings{bescos2018empty, <br>
+  &nbsp; author = {Bescos, Berta and Neira, Jos{\'e} and Siegwart, Roland and Cadena, Cesar}, <br>
+  &nbsp; title = {{Empty Cities: Image Inpainting for a Dynamic Objects Invariant Space}}, <br>
+  &nbsp; journal = {arXiv}, <br>
+  &nbsp; year = {2018} <br>
+}
+	</code>
+</div>
+
+<!-- End page content -->
+</div>
+
+<!-- Footer -->
+<footer class="w3-center w3-black w3-padding-16">
+  <a class="w3-bar-item"><b>Empty</b> Cities</a>
+</footer>
+
+</body>
+</html>
