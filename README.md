@@ -6,7 +6,7 @@ DynaSLAM is a visual SLAM system that is robust in dynamic scenarios for monocul
 
 <img src="imgs/teaser.png" width="900px"/>
 
-DynaSLAM: Tracking, Mapping and Inpainting in Dynamic Scenes 
+DynaSLAM: Tracking, Mapping and Inpainting in Dynamic Scenes   
 [Berta Bescos Torcal](http://bertabescos.github.io), [José M. Fácil](http://webdiis.unizar.es/~jmfacil/), [Javier Civera](http://webdiis.unizar.es/~jcivera/) and [José Neira](http://webdiis.unizar.es/~jneira/)
 
 DynaSLAM is a SLAM library for **Monocular**, **Stereo** and **RGB-D** cameras that computes the camera trajectory and a sparse 3D reconstruction (in the stereo and RGB-D case with true scale). It is able to detect loops and relocalize the camera in real time. We provide examples to run the SLAM system in the [KITTI dataset](http://www.cvlibs.net/datasets/kitti/eval_odometry.php) as stereo or monocular, in the [TUM dataset](http://projects.asl.ethz.ch/datasets/doku.php?id=kmavvisualinertialdatasets) as stereo or monocular. We also provide a ROS node to process live monocular, stereo or RGB-D streams. **The library can be compiled without ROS**. ORB-SLAM2 provides a GUI to change between a *SLAM Mode* and *Localization Mode*, see section 9 of this document.
