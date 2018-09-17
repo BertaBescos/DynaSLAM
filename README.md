@@ -7,7 +7,8 @@ DynaSLAM is a visual SLAM system that is robust in dynamic scenarios for monocul
 <img src="imgs/teaser.png" width="900px"/>
 
 DynaSLAM: Tracking, Mapping and Inpainting in Dynamic Scenes   
-[Berta Bescos Torcal](http://bertabescos.github.io), [José M. Fácil](http://webdiis.unizar.es/~jmfacil/), [Javier Civera](http://webdiis.unizar.es/~jcivera/) and [José Neira](http://webdiis.unizar.es/~jneira/)
+[Berta Bescos Torcal](http://bertabescos.github.io), [José M. Fácil](http://webdiis.unizar.es/~jmfacil/), [Javier Civera](http://webdiis.unizar.es/~jcivera/) and [José Neira](http://webdiis.unizar.es/~jneira/)   
+RA-L and IROS, 2018
 
 We provide examples to run the SLAM system in the [TUM dataset](http://projects.asl.ethz.ch/datasets/doku.php?id=kmavvisualinertialdatasets) as RGB-D or monocular, and in the [KITTI dataset](http://www.cvlibs.net/datasets/kitti/eval_odometry.php) as stereo or monocular.
 
