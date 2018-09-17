@@ -175,17 +175,18 @@
   <!-- Abstract Section -->
   <div class="w3-container w3-padding-32" id="abstract">
 	<h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Abstract</h3>
-	<p align="justify">In this paper we present an end-to-end deep learning framework to turn images that show dynamic content, such as 
-	  vehicles or pedestrians, into realistic static frames. This objective encounters two main challenges: detecting the 
-	  dynamic objects, and inpainting the static occluded background. 
-	  The second challenge is approached with a conditional generative adversarial model that, taking as input the original 
-	  dynamic image and the computed dynamic/static binary mask, is capable of generating the final static image. The former 
-	  challenge is addressed by the use of a convolutional network that learns a multi-class semantic segmentation of the 
-	  image. The objective of this network is producing an accurate segmentation and helping the previous generative model 
-	  to output a realistic static image. These generated images can be used for applications such as virtual reality or 
-	  vision-based robot localization purposes. To validate our approach, we show both qualitative and quantitative 
-	  comparisons with other methods by removing the dynamic objects and hallucinating (inpainting) the static structure 
-	  behind them.
+	<p align="justify">The assumption of scene rigidity  is typical in SLAM algorithms. Such a strong assumption limits 
+		the use of most visual SLAM systems in populated real-world environments, which are the target of several 
+		relevant applications like service robotics or autonomous vehicles.
+		In this paper we present DynaSLAM, a visual SLAM system that, building on ORB-SLAM2, adds the capabilities 
+		of dynamic object detection and background inpainting. DynaSLAM is robust in dynamic scenarios for monocular, 
+		stereo and RGB-D configurations. We are capable of detecting the moving objects either by multi-view geometry, 
+		deep learning or both. Having a static map of the scene allows inpainting the frame background that has been 
+		occluded by such dynamic objects.
+		We evaluate our system in public monocular, stereo and RGB-D datasets. We study the impact of several 
+		accuracy/speed trade-offs to assess the limits of the proposed methodology. DynaSLAM outperforms the accuracy 
+		of standard visual SLAM baselines in highly dynamic scenarios. And it also estimates a map of the static parts 
+		of the scene, which is a must for long-term applications in real-world environments.
 	</p>
   <p align="justify">
 	Check some of our results on images coming from the driving simulator 
@@ -304,16 +305,13 @@
   </div>
 </div>
 	
-	
 <!-- Code Section -->
 <div class="w3-container w3-padding-32" id="code">
   <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Try Our Code</h3>
   <input type="checkbox" checked="checked" onclick="return false">
-	<b>Torch:</b> you can clone our GitHub repository 
+	<b>C++:</b> you can clone our GitHub repository 
 	<a onclick="window.open(this.href); return false;" title="https://github.com/BertaBescos/DynaSLAM" href="https://github.com/BertaBescos/DynaSLAM" onkeypress="window.open(this.href); return false;">here</a> 
 	<br>
-  <input type="checkbox" onclick="return false">
-  <b>PyTorch:</b> we are currently working on this implementation
 </div>
   
 <!-- Video Section -->
@@ -326,41 +324,6 @@
   	</center>
   	</div>
 </div>  
-  
-<!-- Dataset Section -->
-<div class="w3-container w3-padding-32" id="dataset">
-  <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Dataset</h3>
-  <p align="justify">In our GitHub page we have some scripts available to generate the dataset with 
-  <a onclick="window.open(this.href); return false;" title="http://carla.org/" href="http://carla.org/" onkeypress="window.open(this.href); return false;">CARLA</a>. 
-  Also, you can download a small dataset from <a onclick="window.open(this.href); return false;" title="dataset" href="https://drive.google.com/open?id=1XkgElMx4kgyhSNWgoarhBvKKDLuYkJ2o" onkeypress="window.open(this.href); return false;">here</a>. 
-	  Note that this dataset is valid for testing, but it contains very few images for training.</p>
-	  <p>
-	  	Here we show 4 examples of the training data format. These images are sourced from the CARLA driving simulator:
-	  </p>
-<div class="w3-row-padding">
-	<div class="w3-col l3 m6 w3-margin-bottom">
-		<div class="w3-display-container">
-			<img class="w3-image" src="imgs/4.png" alt="DatasetImage" width="600" height="450">
-	  	</div>
-  	</div>
-  	<div class="w3-col l3 m6 w3-margin-bottom">
-		<div class="w3-display-container">
-			<img class="w3-image" src="imgs/1130.png" alt="DatasetImage" width="600" height="450">
-	  	</div>
-  	</div>
-  	<div class="w3-col l3 m6 w3-margin-bottom">
-		<div class="w3-display-container">
-			<img class="w3-image" src="imgs/387.png" alt="DatasetImage" width="600" height="450">
-	  	</div>
-  	</div>
-  	<div class="w3-col l3 m6 w3-margin-bottom">
-		<div class="w3-display-container">
-			<img class="w3-image" src="imgs/97.png" alt="DatasetImage" width="600" height="450">
-	  	</div>
-  	</div>
-</div>
-
-</div> 
 	
  <!-- Paper Section -->
 <div class="w3-container w3-padding-32" id="paper">
