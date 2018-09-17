@@ -9,15 +9,7 @@ DynaSLAM is a visual SLAM system that is robust in dynamic scenarios for monocul
 DynaSLAM: Tracking, Mapping and Inpainting in Dynamic Scenes   
 [Berta Bescos Torcal](http://bertabescos.github.io), [José M. Fácil](http://webdiis.unizar.es/~jmfacil/), [Javier Civera](http://webdiis.unizar.es/~jcivera/) and [José Neira](http://webdiis.unizar.es/~jneira/)
 
-DynaSLAM is a SLAM library for **Monocular**, **Stereo** and **RGB-D** cameras that computes the camera trajectory and a sparse 3D reconstruction (in the stereo and RGB-D case with true scale). It is able to detect loops and relocalize the camera in real time. We provide examples to run the SLAM system in the [KITTI dataset](http://www.cvlibs.net/datasets/kitti/eval_odometry.php) as stereo or monocular, in the [TUM dataset](http://projects.asl.ethz.ch/datasets/doku.php?id=kmavvisualinertialdatasets) as stereo or monocular. We also provide a ROS node to process live monocular, stereo or RGB-D streams. **The library can be compiled without ROS**. ORB-SLAM2 provides a GUI to change between a *SLAM Mode* and *Localization Mode*, see section 9 of this document.
-
-<a href="https://www.youtube.com/embed/ufvPS5wJAx0" target="_blank"><img src="http://img.youtube.com/vi/ufvPS5wJAx0/0.jpg" 
-alt="ORB-SLAM2" width="240" height="180" border="10" /></a>
-<a href="https://www.youtube.com/embed/T-9PYCKhDLM" target="_blank"><img src="http://img.youtube.com/vi/T-9PYCKhDLM/0.jpg" 
-alt="ORB-SLAM2" width="240" height="180" border="10" /></a>
-<a href="https://www.youtube.com/embed/kPwy8yA4CKM" target="_blank"><img src="http://img.youtube.com/vi/kPwy8yA4CKM/0.jpg" 
-alt="ORB-SLAM2" width="240" height="180" border="10" /></a>
->>>>>>> c6df9d3f4beacb583fe3ba3eb12f1869f57f6de6
+We provide examples to run the SLAM system in the [TUM dataset](http://projects.asl.ethz.ch/datasets/doku.php?id=kmavvisualinertialdatasets) as RGB-D or monocular, and in the [KITTI dataset](http://www.cvlibs.net/datasets/kitti/eval_odometry.php) as stereo or monocular.
 
 
 ### Related Publications:
@@ -32,9 +24,9 @@ Berta Bescos, JM. Facil, Javier Civera, Jose Neira. **DynaSLAM: Tracking, Mappin
 
 If you use DynSLAM in an academic work, please cite:
 
-    @article{murTRO2015,
-      title={{DynSLAM}: Tracking, Mapping and Inpainting in Dynamic Environments},
-      author={Besc\'os, Berta, F\'acil, JM., Civera, Javier and Neira, Jos\'e},
+    @article{bescos2018dynaslam,
+      title={{DynaSLAM}: Tracking, Mapping and Inpainting in Dynamic Environments},
+      author={Bescos, Berta, F\'acil, JM., Civera, Javier and Neira, Jos\'e},
       journal={IEEE RA-L},
       year={2018}
      }
