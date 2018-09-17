@@ -12,20 +12,29 @@ RA-L and IROS, 2018
 
 We provide examples to run the SLAM system in the [TUM dataset](http://projects.asl.ethz.ch/datasets/doku.php?id=kmavvisualinertialdatasets) as RGB-D or monocular, and in the [KITTI dataset](http://www.cvlibs.net/datasets/kitti/eval_odometry.php) as stereo or monocular.
 
-## Setup
-- Install ORB-SLAM2 dependencies (https://github.com/raulmur/ORB_SLAM2).
--- ff
-- Install this Mask R-CNN implementation (https://github.com/matterport/Mask_RCNN).
-- 
+## Getting Started
+- Install ORB-SLAM2 prerequisites: C++11 or C++0x Compiler, Pangolin, OpenCV, Eigen3, DBoW2 and g2o (https://github.com/raulmur/ORB_SLAM2).
+- Install python3, keras and tensorflow, and download the `mask_rcnn_coco.h5` model from this GitHub repository: https://github.com/matterport/Mask_RCNN/releases.
+- Clone this repo:
+```bash
+git clone git@github.com:BertaBescos/DynaSLAM.git
+cd DynaSLAM
+```
 
-### ORB-SLAM2 Prerequisites
-- C++11 or C++0x Compiler
-- Pangolin
-- OpenCV
-- Eigen3
-- DBoW2 and g2o (Included in Thirdparty folder)
-For more information, go to https://github.com/raulmur/ORB_SLAM2.
+## RGB-D Example on TUM Dataset
+- Download a sequence from http://vision.in.tum.de/data/datasets/rgbd-dataset/download and uncompress it.
 
+- Associate RGB images and depth images executing the python script [associate.py](http://vision.in.tum.de/data/datasets/rgbd-dataset/tools):
+
+  ```
+  python associate.py PATH_TO_SEQUENCE/rgb.txt PATH_TO_SEQUENCE/depth.txt > associations.txt
+  ```
+
+- Execute the following command. Change `TUMX.yaml` to TUM1.yaml,TUM2.yaml or TUM3.yaml for freiburg1, freiburg2 and freiburg3 sequences respectively. Change `PATH_TO_SEQUENCE_FOLDER` to the uncompressed sequence folder. Change `ASSOCIATIONS_FILE` to the path to the corresponding associations file.
+
+  ```
+  ./Examples/RGB-D/rgbd_tum Vocabulary/ORBvoc.txt Examples/RGB-D/TUMX.yaml PATH_TO_SEQUENCE_FOLDER ASSOCIATIONS_FILE
+  ```
 
 # 1. License
 
@@ -39,21 +48,7 @@ If you use DynaSLAM in an academic work, please cite:
      }
 
 
-# 3. Building DynSLAM library and examples
 
-Clone the repository:
-```
-git clone https://github.com/BertaBescos/DynSLAM.git DynSLAM
-```
-
-We provide a script `build.sh` to build the *Thirdparty* libraries and *ORB-SLAM2*. Please make sure you have installed all required dependencies (see section 2). Execute:
-```
-cd DynSLAM
-chmod +x build.sh
-./build.sh
-```
-
-This will create **libORB_SLAM2.so**  at *lib* folder and the executables **mono_tum**, **mono_kitti**, **rgbd_tum**, **stereo_kitti**, **mono_euroc** and **stereo_euroc** in *Examples* folder.
 
 # 4. Monocular Examples
 
