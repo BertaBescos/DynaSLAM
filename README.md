@@ -13,6 +13,10 @@ RA-L and IROS, 2018
 We provide examples to run the SLAM system in the [TUM dataset](http://projects.asl.ethz.ch/datasets/doku.php?id=kmavvisualinertialdatasets) as RGB-D or monocular, and in the [KITTI dataset](http://www.cvlibs.net/datasets/kitti/eval_odometry.php) as stereo or monocular.
 
 ## Setup
+- Install ORB-SLAM2 dependencies (https://github.com/raulmur/ORB_SLAM2).
+-- ff
+- Install this Mask R-CNN implementation (https://github.com/matterport/Mask_RCNN).
+- 
 
 ### ORB-SLAM2 Prerequisites
 - C++11 or C++0x Compiler
