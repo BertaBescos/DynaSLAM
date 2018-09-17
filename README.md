@@ -1,12 +1,13 @@
-# DynSLAM
-**Authors:** [Berta Bescos](http://webdiis.unizar.es/~bbescos/), [JM. Facil](http://webdiis.unizar.es/~jmfacil/), [J. Neira](http://webdiis.unizar.es/~neira/) and [Javier Civera](http://webdiis.unizar.es/~jcivera/)
+# DynaSLAM
+**Authors:** [Berta Bescos](https://bertabescos.github.io), [JM. Facil](http://webdiis.unizar.es/~jmfacil/), [J. Neira](http://webdiis.unizar.es/~neira/) and [Javier Civera](http://webdiis.unizar.es/~jcivera/)
 =======
-#DynSLAM
-**Authors:** [Berta Bescos Torcal](http://webdiis.unizar.es/~bbescos/), [José M. Fácil](http://webdiis.unizar.es/~jmfacil/), [Javier Civera](http://webdiis.unizar.es/~jcivera/) and [José Neira](http://webdiis.unizar.es/~jneira/)
+#DynaSLAM
+**Authors:** [Berta Bescos Torcal](http://bertabescos.github.io), [José M. Fácil](http://webdiis.unizar.es/~jmfacil/), [Javier Civera](http://webdiis.unizar.es/~jcivera/) and [José Neira](http://webdiis.unizar.es/~jneira/)
 
-**13 Jan 2017**: OpenCV 3 and Eigen 3.3 are now supported.
+The assumption of scene rigidity is typical in SLAM algorithms. Such a strong assumption limits the use of most visual SLAM systems in populated real-world environments, which are the target of several relevant applications like service robotics or autonomous vehicles. In this paper we present DynSLAM, a visual SLAM system that, building over ORB-SLAM2 [1], adds the capabilities of dynamic object detection and background inpainting. DynSLAM is robust in dynamic scenarios for monocular, stereo and RGB-D configurations. We are capable of detecting the moving objects either by multi-view geometry, deep learning or both. Having a static map of the scene allows inpainting the frame background that has been occluded by such dynamic objects. We evaluate our system in public monocular, stereo and RGB-D datasets. We study the impact of several accuracy/speed trade-offs to assess the limits of the proposed methodology. DynSLAM outperforms the accuracy of standard visual SLAM baselines in highly dynamic scenarios. And it also estimates a map of the static parts of the scene, which is a must for long-term applications in real-world environments.
 
-ORB-SLAM2 is a real-time SLAM library for **Monocular**, **Stereo** and **RGB-D** cameras that computes the camera trajectory and a sparse 3D reconstruction (in the stereo and RGB-D case with true scale). It is able to detect loops and relocalize the camera in real time. We provide examples to run the SLAM system in the [KITTI dataset](http://www.cvlibs.net/datasets/kitti/eval_odometry.php) as stereo or monocular, in the [TUM dataset](http://vision.in.tum.de/data/datasets/rgbd-dataset) as RGB-D or monocular, and in the [EuRoC dataset](http://projects.asl.ethz.ch/datasets/doku.php?id=kmavvisualinertialdatasets) as stereo or monocular. We also provide a ROS node to process live monocular, stereo or RGB-D streams. **The library can be compiled without ROS**. ORB-SLAM2 provides a GUI to change between a *SLAM Mode* and *Localization Mode*, see section 9 of this document.
+
+DynaSLAM is a SLAM library for **Monocular**, **Stereo** and **RGB-D** cameras that computes the camera trajectory and a sparse 3D reconstruction (in the stereo and RGB-D case with true scale). It is able to detect loops and relocalize the camera in real time. We provide examples to run the SLAM system in the [KITTI dataset](http://www.cvlibs.net/datasets/kitti/eval_odometry.php) as stereo or monocular, in the [TUM dataset](http://projects.asl.ethz.ch/datasets/doku.php?id=kmavvisualinertialdatasets) as stereo or monocular. We also provide a ROS node to process live monocular, stereo or RGB-D streams. **The library can be compiled without ROS**. ORB-SLAM2 provides a GUI to change between a *SLAM Mode* and *Localization Mode*, see section 9 of this document.
 
 <a href="https://www.youtube.com/embed/ufvPS5wJAx0" target="_blank"><img src="http://img.youtube.com/vi/ufvPS5wJAx0/0.jpg" 
 alt="ORB-SLAM2" width="240" height="180" border="10" /></a>
@@ -20,9 +21,9 @@ alt="ORB-SLAM2" width="240" height="180" border="10" /></a>
 ### Related Publications:
 
 =======
-DynSLAM
+DynaSLAM
 
-Berta Bescos, JM. Facil, Javier Civera, Jose Neira. **DynSLAM: Tracking, Mapping and Inpainting in Dynamic Environments**. *IEEE Transactions on Robotics,* vol. 31, no. 5, pp. 1147-1163, 2015. **[PDF](http://webdiis.unizar.es/~raulmur/MurMontielTardosTRO15.pdf)**.
+Berta Bescos, JM. Facil, Javier Civera, Jose Neira. **DynaSLAM: Tracking, Mapping and Inpainting in Dynamic Environments**. *IEEE RA-L and IROS, 2018. **[PDF](http://webdiis.unizar.es/~raulmur/MurMontielTardosTRO15.pdf)**.
 
 
 # 1. License
