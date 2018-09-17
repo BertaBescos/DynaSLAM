@@ -4,6 +4,7 @@
 
 DynaSLAM is a visual SLAM system that, building on ORB-SLAM2, adds the capabilities of dynamic object detection and background inpainting. DynaSLAM is robust in dynamic scenarios for monocular, stereo and RGB-D configurations. We are capable of detecting the moving objects either by multi-view geometry, deep learning or both. Having a static map of the scene allows inpainting the frame background that has been occluded by such dynamic objects.
 
+<img src="imgs/id0427rgbInput.png" width="450px"/>
 <img src="imgs/pointCloud.png" width="900px"/>
 
 DynaSLAM: Tracking, Mapping and Inpainting in Dynamic Scenes 
