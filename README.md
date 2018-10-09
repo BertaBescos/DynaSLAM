@@ -14,6 +14,7 @@ We provide examples to run the SLAM system in the [TUM dataset](http://projects.
 
 ## Getting Started
 - Install ORB-SLAM2 prerequisites: C++11 or C++0x Compiler, Pangolin, OpenCV, Eigen3, DBoW2 and g2o (https://github.com/raulmur/ORB_SLAM2).
+- Install boost libraries with the command `sudo apt-get install libboost-all-dev`
 - Install python3, keras and tensorflow, and download the `mask_rcnn_coco.h5` model from this GitHub repository: https://github.com/matterport/Mask_RCNN/releases.
 - Clone this repo:
 ```bash
