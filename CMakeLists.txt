@@ -32,13 +32,21 @@ endif()
 
 LIST(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake_modules)
 
-find_package(OpenCV 3.0 QUIET)
+find_package(OpenCV 2.4.11 QUIET)
 if(NOT OpenCV_FOUND)
-   find_package(OpenCV 2.4.3 QUIET)
-   if(NOT OpenCV_FOUND)
-      message(FATAL_ERROR "OpenCV > 2.4.3 not found.")
-   endif()
+    find_package(OpenCV 3.0 QUIET)
+    if(NOT OpenCV_FOUND)
+        message(FATAL_ERROR "OpenCV > 2.4.11 not found.")
+    endif()
 endif()
+
+#find_package(OpenCV 3.0 QUIET)
+#if(NOT OpenCV_FOUND)
+#   find_package(OpenCV 2.4.3 QUIET)
+#   if(NOT OpenCV_FOUND)
+#      message(FATAL_ERROR "OpenCV > 2.4.3 not found.")
+#   endif()
+#endif()
 
 find_package(PythonLibs REQUIRED)
 if (NOT PythonLibs_FOUND)
@@ -59,16 +67,18 @@ endif()
 find_package(Eigen3 3.1.0 REQUIRED)
 find_package(Pangolin REQUIRED)
 
+set(PYTHON_INCLUDE_DIRS ${PYTHON_INCLUDE_DIRS} /usr/local/lib/python2.7/dist-packages/numpy/core/include/numpy)
+
 include_directories(
 ${PROJECT_SOURCE_DIR}
 ${PROJECT_SOURCE_DIR}/include
 ${EIGEN3_INCLUDE_DIR}
 ${Pangolin_INCLUDE_DIRS}
 /usr/include/python2.7/
-/usr/local/lib/python2.7/dist-packages/numpy/core/include/numpy/
+/usr/lib/python2.7/dist-packages/numpy/core/include/numpy/
 ${Boost_INCLUDE_DIRS}
 )
-
+message("PROJECT_SOURCE_DIR: " ${PROJECT_SOURCE_DIR})
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
 
 add_library(${PROJECT_NAME} SHARED
