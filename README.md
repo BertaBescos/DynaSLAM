@@ -13,7 +13,7 @@ RA-L and IROS, 2018
 We provide examples to run the SLAM system in the [TUM dataset](http://projects.asl.ethz.ch/datasets/doku.php?id=kmavvisualinertialdatasets) as RGB-D or monocular, and in the [KITTI dataset](http://www.cvlibs.net/datasets/kitti/eval_odometry.php) as stereo or monocular.
 
 ## Getting Started
-- Install ORB-SLAM2 prerequisites: C++11 or C++0x Compiler, Pangolin, *OpenCV 2.4.11*, Eigen3, DBoW2 and g2o (https://github.com/raulmur/ORB_SLAM2).
+- Install ORB-SLAM2 prerequisites: C++11 or C++0x Compiler, Pangolin, **OpenCV 2.4.11**, Eigen3, DBoW2 and g2o (https://github.com/raulmur/ORB_SLAM2).
 - Install boost libraries with the command `sudo apt-get install libboost-all-dev`
 - Install python3, keras and tensorflow, and download the `mask_rcnn_coco.h5` model from this GitHub repository: https://github.com/matterport/Mask_RCNN/releases.
 - Clone this repo:
