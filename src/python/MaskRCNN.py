@@ -16,10 +16,11 @@ class Mask:
     """
     """
     def __init__(self):
-        print 'Initialating Mask RCNN network...'
+        print 'Initializing Mask RCNN network...'
 	# Root directory of the project
 	ROOT_DIR = os.getcwd()
-	ROOT_DIR = "/home/berta/Documents/ORB1/src/python"
+	ROOT_DIR = "/home/berta/Documents/DynaSLAM/src/python"
+	print(ROOT_DIR)
 
 	# Directory to save logs and trained model
 	MODEL_DIR = os.path.join(ROOT_DIR, "logs")
@@ -135,7 +136,7 @@ class Mask:
 			image_m = r['masks'][:,:,i]
 			mask[image_m == 1] = 1.		
 		i+=1
-	# print('GetSeg mask shape:',mask.shape)
+	#print('GetSeg mask shape:',mask.shape)
 
 	return mask
 

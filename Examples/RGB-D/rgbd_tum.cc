@@ -65,13 +65,14 @@ int main(int argc, char **argv)
         return 1;
     }
 
-    // Initialize Mask net (Included by Berta)
-    cout << "Loading Mask net. This could take a while..." << endl;
+    // Initialize Mask R-CNN
+    cout << "Loading Mask R-CNN. This could take a while..." << endl;
     ORBmask::SegmentDynObject *MaskNet;
-    if (argc==6){
-        MaskNet=new ORBmask::SegmentDynObject();
+    if (argc==6)
+    {
+        MaskNet = new ORBmask::SegmentDynObject();
     }
-    cout << "Mask net loaded!" << endl;
+    cout << "Mask R-CNN loaded!" << endl;
 
     // Create SLAM system. It initializes all system threads and gets ready to process frames.
     ORB_SLAM2::System SLAM(argv[1],argv[2],ORB_SLAM2::System::RGBD,true);
@@ -93,7 +94,7 @@ int main(int argc, char **argv)
     cout << "Start processing sequence ..." << endl;
     cout << "Images in the sequence: " << nImages << endl << endl;
 
-    // Dilation settings (Included by Berta)
+    // Dilation settings
     int dilation_size = 15;
     cv::Mat kernel = getStructuringElement(cv::MORPH_ELLIPSE,
                                            cv::Size( 2*dilation_size + 1, 2*dilation_size+1 ),
@@ -102,13 +103,9 @@ int main(int argc, char **argv)
     // Main loop
     cv::Mat imRGB, imD;
     cv::Mat imRGBOut, imDOut,maskOut;
-    cv::Mat imRGBVideo;
-
-    cv::namedWindow("DynSLAM: Output Frame",cv::WINDOW_AUTOSIZE);
 
     for(int ni=0; ni<nImages; ni++)
     {
-
         // Read image and depthmap from file
         imRGB = cv::imread(string(argv[3])+"/"+vstrImageFilenamesRGB[ni],CV_LOAD_IMAGE_UNCHANGED);
         imD = cv::imread(string(argv[3])+"/"+vstrImageFilenamesD[ni],CV_LOAD_IMAGE_UNCHANGED);
@@ -128,43 +125,30 @@ int main(int argc, char **argv)
         std::chrono::monotonic_clock::time_point t1 = std::chrono::monotonic_clock::now();
 #endif
 
-        // Segment out the images (Included by Berta)
+        // Segment out the images
         cv::Mat mask = cv::Mat::ones(480,640,CV_8U);
         if(argc == 6 || argc == 7){
-            cv::Mat maskRCN;
-            maskRCN = MaskNet->GetSegmentation(imRGB,string(argv[5]),vstrImageFilenamesRGB[ni].replace(0,4,""));
-            cv::Mat maskRCNdil = maskRCN.clone();
-            cv::dilate(maskRCN,maskRCNdil, kernel);
-            mask = mask - maskRCNdil;
+            cv::Mat maskRCNN;
+            maskRCNN = MaskNet->GetSegmentation(imRGB,string(argv[5]),vstrImageFilenamesRGB[ni].replace(0,4,""));
+            cv::Mat maskRCNNdil = maskRCNN.clone();
+            cv::dilate(maskRCNN,maskRCNNdil, kernel);
+            mask = mask - maskRCNNdil;
         }
 
         if(argc ==5)
         {
             mask = cv::imread(string(argv[3])+"/"+vstrImageFilenamesRGB[ni].replace(0,4,"mask/"),CV_LOAD_IMAGE_UNCHANGED);
-            if (mask.empty())
-            {
-                mask = cv::Mat::ones(480,640,CV_8U);
-            }
-            imRGBVideo = cv::imread(string(argv[3])+"/"+vstrImageFilenamesRGB[ni].replace(0,5,"rgbVideo/"),CV_LOAD_IMAGE_UNCHANGED);
-
+            if (mask.empty()) {mask = cv::Mat::ones(480,640,CV_8U);}
          }
 
         // Pass the image to the SLAM system
         if (argc == 7)
         {
-            SLAM.TrackRGBD(imRGB,imD,mask,tframe,vTimesLightTrack,vTimesFDOD,vTimesBR,imRGBOut,imDOut,maskOut); //SLAM.TrackRGBD(imRGB,imD,tframe); (Modified by Berta)
+            SLAM.TrackRGBD(imRGB,imD,mask,tframe,vTimesLightTrack,vTimesFDOD,vTimesBR,imRGBOut,imDOut,maskOut);
         }
         else
         {
-            SLAM.TrackRGBD(imRGB,imD,mask,tframe,vTimesLightTrack,vTimesFDOD,vTimesBR); //SLAM.TrackRGBD(imRGB,imD,tframe); (Modified by Berta)
-        }
-
-        cv::Mat imOut = imRGBVideo;
-        cv::imshow("DynSLAM: Output Frame",imOut);
-
-        if (ni==0)
-        {
-            sleep(70);
+            SLAM.TrackRGBD(imRGB,imD,mask,tframe,vTimesLightTrack,vTimesFDOD,vTimesBR);
         }
 
 #ifdef COMPILEDWITHC11
@@ -179,7 +163,6 @@ int main(int argc, char **argv)
             cv::imwrite(string(argv[6]) + "/" + vstrImageFilenamesD[ni],imDOut);
             cv::imwrite(string(argv[6]) + "/mask/" + vstrImageFilenamesRGB[ni],maskOut);
         }
-
 
         double ttrack= std::chrono::duration_cast<std::chrono::duration<double> >(t2 - t1).count();
 

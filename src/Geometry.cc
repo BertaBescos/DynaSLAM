@@ -34,13 +34,13 @@ void Geometry::GeometricModelCorrection(const ORB_SLAM2::Frame &currentFrame,
         std::chrono::monotonic_clock::time_point t1FDOD = std::chrono::monotonic_clock::now();
 #endif
 
-        //vector<ORB_SLAM2::Frame> vRefFrames = GetRefFrames(currentFrame);
+        vector<ORB_SLAM2::Frame> vRefFrames = GetRefFrames(currentFrame);
         //std::cout << "GetRefFrames OK!" << std::endl;
-        //vector<DynKeyPoint> vDynPoints = ExtractDynPoints(vRefFrames,currentFrame);
+        vector<DynKeyPoint> vDynPoints = ExtractDynPoints(vRefFrames,currentFrame);
         //std::cout << "ExtractDynPoints OK!" << std::endl;
-        //mask = DepthRegionGrowing(vDynPoints,imDepth);
+        mask = DepthRegionGrowing(vDynPoints,imDepth);
         //std::cout << "DepthRegionGrowing OK!" << std::endl;
-        //CombineMasks(currentFrame,mask);
+        CombineMasks(currentFrame,mask);
         //std::cout << "CombineMasks OK!" << std::endl;
 
 #ifdef COMPILEDWITHC11
@@ -91,13 +91,13 @@ void Geometry::GeometricModelCorrection(const ORB_SLAM2::Frame &currentFrame,
         std::chrono::monotonic_clock::time_point t1FDOD = std::chrono::monotonic_clock::now();
 #endif
 
-        //vector<ORB_SLAM2::Frame> vRefFrames = GetRefFrames(currentFrame);
+        vector<ORB_SLAM2::Frame> vRefFrames = GetRefFrames(currentFrame);
         //std::cout << "GetRefFrames OK!" << std::endl;
-        //vector<DynKeyPoint> vDynPoints = ExtractDynPoints(vRefFrames,currentFrame);
+        vector<DynKeyPoint> vDynPoints = ExtractDynPoints(vRefFrames,currentFrame);
         //std::cout << "ExtractDynPoints OK!" << std::endl;
-        //mask = DepthRegionGrowing(vDynPoints,imDepth);
+        mask = DepthRegionGrowing(vDynPoints,imDepth);
         //std::cout << "DepthRegionGrowing OK!" << std::endl;
-        //CombineMasks(currentFrame,mask);
+        CombineMasks(currentFrame,mask);
         //std::cout << "CombineMasks OK!" << std::endl;
 
 #ifdef COMPILEDWITHC11

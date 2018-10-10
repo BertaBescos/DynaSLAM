@@ -25,10 +25,8 @@ SegmentDynObject::SegmentDynObject(){
     x = getenv("PYTHONPATH");
     Py_Initialize();
     this->cvt = new NDArrayConverter();
-    // std::cout << "Module: "<< this->module_name << std::endl;
     this->py_module = PyImport_ImportModule(this->module_name.c_str());
     assert(this->py_module != NULL);
-    // std::cout << "Class: "<< this->class_name << std::endl;
     this->py_class = PyObject_GetAttrString(this->py_module, this->class_name.c_str());
     assert(this->py_class != NULL);
     this->net = PyInstance_New(this->py_class, NULL, NULL);
@@ -37,6 +35,7 @@ SegmentDynObject::SegmentDynObject(){
     cv::Mat image  = cv::Mat::zeros(480,640,CV_8UC3); //Be careful with size!!
     std::cout << "Loading net parameters..." << std::endl;
     GetSegmentation(image);
+    std::cout << "Prueba" << std::endl;
 }
 
 SegmentDynObject::~SegmentDynObject(){
@@ -57,13 +56,12 @@ cv::Mat SegmentDynObject::GetSegmentation(cv::Mat &image,std::string dir, std::s
         if(dir.compare("no_save")!=0){
             cv::imwrite(dir+"/"+name,seg);
         }
-
     }
     return seg;
 }
 
 void SegmentDynObject::ImportSettings(){
-    std::string strSettingsFile = "/home/berta/Documents/ORB1/Examples/RGB-D/MaskSettings.yaml";
+    std::string strSettingsFile = "/home/berta/Documents/DynaSLAM/Examples/RGB-D/MaskSettings.yaml";
     cv::FileStorage fs(strSettingsFile.c_str(), cv::FileStorage::READ);
     fs["py_path"] >> this->py_path;
     fs["module_name"] >> this->module_name;

@@ -5,4 +5,11 @@ lib/
 
 build/
 
+Examples/Monocular/mono_tum
+Examples/Monocular/mono_kitti
+
+Examples/Stereo/stereo_kitti
+
+Examples/RGB-D/rgbd_tum
+
 src/python/mask_rcnn_coco\.h5
