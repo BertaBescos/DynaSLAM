@@ -3,6 +3,8 @@ Vocabulary/ORBvoc.txt
 
 lib/
 
+Thirdparty/DBoW2/lib/
+
 build/
 
 src/python/mask_rcnn_coco\.h5
