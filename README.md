@@ -36,14 +36,15 @@ chmod +x build.sh
   ```
   python associate.py PATH_TO_SEQUENCE/rgb.txt PATH_TO_SEQUENCE/depth.txt > associations.txt
   ```
+These associations files are given in the folder `./Examples/RGB-D/associations/` for the TUM dynamic sequences.
 
-- Execute the following command. Change `TUMX.yaml` to TUM1.yaml,TUM2.yaml or TUM3.yaml for freiburg1, freiburg2 and freiburg3 sequences respectively. Change `PATH_TO_SEQUENCE_FOLDER` to the uncompressed sequence folder. Change `ASSOCIATIONS_FILE` to the path to the corresponding associations file.
+- Execute the following command. Change `TUMX.yaml` to TUM1.yaml,TUM2.yaml or TUM3.yaml for freiburg1, freiburg2 and freiburg3 sequences respectively. Change `PATH_TO_SEQUENCE_FOLDER` to the uncompressed sequence folder. Change `ASSOCIATIONS_FILE` to the path to the corresponding associations file. `PATH_TO_SEQUENCE_FOLDER/mask` and `PATH_TO_OUTPUT` are optional parameters.
 
   ```
   ./Examples/RGB-D/rgbd_tum Vocabulary/ORBvoc.txt Examples/RGB-D/TUMX.yaml PATH_TO_SEQUENCE_FOLDER ASSOCIATIONS_FILE (PATH_TO_SEQUENCE_FOLDER/mask) (PATH_TO_OUTPUT)
   ```
   
-If `PATH_TO_SEQUENCE_FOLDER/mask` and `PATH_TO_OUTPUT` are **not** provided, only the geometrical approach is used to detect dynamic objects. If it finds the computed dynamic masks in `PATH_TO_SEQUENCE_FOLDER/mask`, it uses them too.
+If `PATH_TO_SEQUENCE_FOLDER/mask` and `PATH_TO_OUTPUT` are **not** provided, only the geometrical approach is used to detect dynamic objects. If it finds the Mask R-CNN computed dynamic masks in `PATH_TO_SEQUENCE_FOLDER/mask`, it uses them too.
 
 If `PATH_TO_SEQUENCE_FOLDER/mask` is provided, Mask R-CNN is used to segment the potential dynamic content of every frame. These masks are saved in the provided folder `PATH_TO_SEQUENCE_FOLDER/mask`. If this argument is `no_save`, the masks are used but not saved. 
 
