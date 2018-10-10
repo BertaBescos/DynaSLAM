@@ -35,7 +35,6 @@ SegmentDynObject::SegmentDynObject(){
     cv::Mat image  = cv::Mat::zeros(480,640,CV_8UC3); //Be careful with size!!
     std::cout << "Loading net parameters..." << std::endl;
     GetSegmentation(image);
-    std::cout << "Prueba" << std::endl;
 }
 
 SegmentDynObject::~SegmentDynObject(){
@@ -54,6 +53,7 @@ cv::Mat SegmentDynObject::GetSegmentation(cv::Mat &image,std::string dir, std::s
         seg = cvt->toMat(py_mask_image).clone();
         seg.cv::Mat::convertTo(seg,CV_8U);//0 background y 1 foreground
         if(dir.compare("no_save")!=0){
+            mkdir(dir.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
             cv::imwrite(dir+"/"+name,seg);
         }
     }

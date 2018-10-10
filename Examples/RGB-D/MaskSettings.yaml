@@ -1,5 +1,5 @@
 %YAML:1.0
-py_path: "/home/berta/Documents/DynaSLAM/src/python/"
+py_path: "./src/python/"
 module_name: "MaskRCNN"
 class_name: "Mask"
 get_dyn_seg: "GetDynSeg"
