@@ -15,12 +15,18 @@ We provide examples to run the SLAM system in the [TUM dataset](http://projects.
 ## Getting Started
 - Install ORB-SLAM2 prerequisites: C++11 or C++0x Compiler, Pangolin, **OpenCV 2.4.11**, Eigen3, DBoW2 and g2o (https://github.com/raulmur/ORB_SLAM2).
 - Install boost libraries with the command `sudo apt-get install libboost-all-dev`
-- Install python3, keras and tensorflow, and download the `mask_rcnn_coco.h5` model from this GitHub repository: https://github.com/matterport/Mask_RCNN/releases.
+- Install python3, keras and tensorflow, and download the `mask_rcnn_coco.h5` model from this GitHub repository: https://github.com/matterport/Mask_RCNN/releases. 
 - Clone this repo:
 ```bash
 git clone git@github.com:BertaBescos/DynaSLAM.git
 cd DynaSLAM
 ```
+```
+cd DynaSLAM
+chmod +x build.sh
+./build.sh
+```
+- Place the `mask_rcnn_coco.h5` model in the folder `DynaSLAM/src/python/`.
 
 ## RGB-D Example on TUM Dataset
 - Download a sequence from http://vision.in.tum.de/data/datasets/rgbd-dataset/download and uncompress it.
