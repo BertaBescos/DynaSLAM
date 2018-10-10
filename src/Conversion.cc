@@ -2,7 +2,7 @@
 #include <iostream>
 
 
-namespace ORBmask
+namespace DynaSLAM
 {
 
 static void init()

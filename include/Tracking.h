@@ -225,7 +225,7 @@ protected:
     list<MapPoint*> mlpTemporalPoints;
 
     //berta:
-    ORBmask::Geometry mGeometry;
+    DynaSLAM::Geometry mGeometry;
 };
 
 } //namespace ORB_SLAM

@@ -3,7 +3,7 @@
 #include <fstream>
 #include <iomanip>
 
-namespace ORBmask
+namespace DynaSLAM
 {
 
 //#define U_SEGSt(a)\

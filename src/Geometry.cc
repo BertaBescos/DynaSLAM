@@ -3,7 +3,7 @@
 #include "Frame.h"
 #include "Tracking.h"
 
-namespace ORBmask
+namespace DynaSLAM
 {
 
 Geometry::Geometry()

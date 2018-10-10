@@ -12,4 +12,11 @@ Examples/Stereo/stereo_kitti
 
 Examples/RGB-D/rgbd_tum
 
+src/python/coco.pyc
+src/python/config.pyc
+src/python/MaskRCNN.pyc
+src/python/model.pyc
+src/python/utils.pyc
+src/python/visualize.pyc
+
 src/python/mask_rcnn_coco\.h5

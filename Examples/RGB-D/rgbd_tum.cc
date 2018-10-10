@@ -159,6 +159,7 @@ int main(int argc, char **argv)
 
         if (argc == 7)
         {
+            std::cout << string(argv[6]) + "/rgb/" + vstrImageFilenamesRGB[ni] << std::endl;
             cv::imwrite(string(argv[6]) + "/rgb/" + vstrImageFilenamesRGB[ni],imRGBOut);
             cv::imwrite(string(argv[6]) + "/" + vstrImageFilenamesD[ni],imDOut);
             cv::imwrite(string(argv[6]) + "/mask/" + vstrImageFilenamesRGB[ni],maskOut);

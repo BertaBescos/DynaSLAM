@@ -452,7 +452,7 @@ int Optimizer::PoseOptimization(Frame *pFrame)
 
 /*
 //inserted by Berta
-int Optimizer::PoseOptimization(Frame *pFrame,ORBmask::Geometry & geom)
+int Optimizer::PoseOptimization(Frame *pFrame,DynaSLAM::Geometry & geom)
 {
     g2o::SparseOptimizer optimizer;
     g2o::BlockSolver_6_3::LinearSolverType * linearSolver;

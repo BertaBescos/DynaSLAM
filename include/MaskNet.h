@@ -18,7 +18,7 @@
 #include <boost/thread.hpp>
 #include "include/Conversion.h"
 
-namespace ORBmask
+namespace DynaSLAM
 {
 
 class SegmentDynObject{

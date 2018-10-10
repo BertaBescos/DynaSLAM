@@ -14,7 +14,7 @@ import model as modellib
 print 'Initializing Mask RCNN network...'
 # Root directory of the project
 ROOT_DIR = os.getcwd()
-ROOT_DIR = "/home/berta/Documents/DynaSLAM/src/python"
+ROOT_DIR = "./src/python"
 print(ROOT_DIR)
 
 # Directory to save logs and trained model

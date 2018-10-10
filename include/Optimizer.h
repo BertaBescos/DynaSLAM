@@ -33,7 +33,7 @@ namespace ORB_SLAM2
 {
 
 class LoopClosing;
-//class ORBmask::Geometry;
+//class DynaSLAM::Geometry;
 class Optimizer
 {
 public:
@@ -46,7 +46,7 @@ public:
     int static PoseOptimization(Frame* pFrame);
 
     //Inserted by Berta
-    //int PoseOptimization(Frame *pFrame,ORBmask::Geometry & geom);
+    //int PoseOptimization(Frame *pFrame,DynaSLAM::Geometry & geom);
 
     // if bFixScale is true, 6DoF optimization (stereo,rgbd), 7DoF otherwise (mono)
     void static OptimizeEssentialGraph(Map* pMap, KeyFrame* pLoopKF, KeyFrame* pCurKF,

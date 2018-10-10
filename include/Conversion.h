@@ -12,7 +12,7 @@
 
 #define NUMPY_IMPORT_ARRAY_RETVAL
 
-namespace ORBmask
+namespace DynaSLAM
 {
 
 static PyObject* opencv_error = 0;
