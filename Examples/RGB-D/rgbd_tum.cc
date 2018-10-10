@@ -67,10 +67,10 @@ int main(int argc, char **argv)
 
     // Initialize Mask R-CNN
     cout << "Loading Mask R-CNN. This could take a while..." << endl;
-    ORBmask::SegmentDynObject *MaskNet;
+    DynaSLAM::SegmentDynObject *MaskNet;
     if (argc==6)
     {
-        MaskNet = new ORBmask::SegmentDynObject();
+        MaskNet = new DynaSLAM::SegmentDynObject();
     }
     cout << "Mask R-CNN loaded!" << endl;
 

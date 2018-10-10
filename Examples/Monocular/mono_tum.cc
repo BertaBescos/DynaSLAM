@@ -53,9 +53,9 @@ int main(int argc, char **argv)
 
     // Initialize Mask net (Included by Berta)
     cout << "Loading Mask net. This could take a while..." << endl;
-    ORBmask::SegmentDynObject* MaskNet;
+    DynaSLAM::SegmentDynObject* MaskNet;
     if (argc==5){
-        MaskNet=new ORBmask::SegmentDynObject();
+        MaskNet = new DynaSLAM::SegmentDynObject();
     }
     cout << "Mask net loaded!" << endl;
 
