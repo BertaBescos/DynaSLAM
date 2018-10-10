@@ -23,7 +23,7 @@ cd Vocabulary
 tar -xf ORBvoc.txt.tar.gz
 cd ..
 
-echo "Configuring and building ORB_SLAM2 ..."
+echo "Configuring and building DynaSLAM ..."
 
 mkdir build
 cd build
