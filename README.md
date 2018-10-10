@@ -49,8 +49,6 @@ If `PATH_TO_SEQUENCE_FOLDER/mask` is provided, Mask R-CNN is used to segment the
 
 If `PATH_TO_OUTPUT` is provided, the inpainted frames are computed and saved in `PATH_TO_OUTPUT`.
 
-the computed  output will be saved in here. If `PATH_TO_MASKS` exists and contains the corresponding computed masks, they will be used for the system.
-
 ## Stereo Example on KITTI Dataset
 - Download the dataset (grayscale images) from http://www.cvlibs.net/datasets/kitti/eval_odometry.php 
 
