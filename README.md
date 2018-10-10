@@ -34,8 +34,9 @@ cd DynaSLAM
 - Execute the following command. Change `TUMX.yaml` to TUM1.yaml,TUM2.yaml or TUM3.yaml for freiburg1, freiburg2 and freiburg3 sequences respectively. Change `PATH_TO_SEQUENCE_FOLDER` to the uncompressed sequence folder. Change `ASSOCIATIONS_FILE` to the path to the corresponding associations file.
 
   ```
-  ./Examples/RGB-D/rgbd_tum Vocabulary/ORBvoc.txt Examples/RGB-D/TUMX.yaml PATH_TO_SEQUENCE_FOLDER ASSOCIATIONS_FILE (PATH_TO_MASKS) (PATH_TO_OUTPUT)
+  ./Examples/RGB-D/rgbd_tum Vocabulary/ORBvoc.txt Examples/RGB-D/TUMX.yaml PATH_TO_SEQUENCE_FOLDER ASSOCIATIONS_FILE (PATH_TO_MASKS)
   ```
+If `PATH_TO_MASKS` is provided and does not exist, the computed Mask R-CNN output will be saved in here. If `PATH_TO_MASKS` exists and contains the corresponding computed masks, they will be used for the system.
 
 ## Stereo Example on KITTI Dataset
 - Download the dataset (grayscale images) from http://www.cvlibs.net/datasets/kitti/eval_odometry.php 
