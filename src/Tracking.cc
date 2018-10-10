@@ -1,21 +1,10 @@
 /**
-* This file is part of ORB-SLAM2.
+* This file is a modified version of ORB-SLAM2.<https://github.com/raulmur/ORB_SLAM2>
 *
-* Copyright (C) 2014-2016 Raúl Mur-Artal <raulmur at unizar dot es> (University of Zaragoza)
-* For more information see <https://github.com/raulmur/ORB_SLAM2>
+* This file is part of DynaSLAM.
+* Copyright (C) 2018 Berta Bescos <bbescos at unizar dot es> (University of Zaragoza)
+* For more information see <https://github.com/bertabescos/DynaSLAM>.
 *
-* ORB-SLAM2 is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* ORB-SLAM2 is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with ORB-SLAM2. If not, see <http://www.gnu.org/licenses/>.
 */
 
 
@@ -215,9 +204,8 @@ cv::Mat Tracking::GrabImageStereo(const cv::Mat &imRectLeft, const cv::Mat &imRe
 
 
 cv::Mat Tracking::GrabImageRGBD(const cv::Mat &imRGB,const cv::Mat &imD, cv::Mat &mask,
-                                const double &timestamp, vector<float> &vTimesLightTrack,
-                                vector<float> &vTimesFDOD, vector<float> &vTimesBR,
-                                cv::Mat &imRGBOut, cv::Mat &imDOut, cv::Mat &maskOut)
+                                const double &timestamp, cv::Mat &imRGBOut,
+                                cv::Mat &imDOut, cv::Mat &maskOut)
 {
     mImGray = imRGB;
     cv::Mat imDepth = imD;
@@ -242,66 +230,22 @@ cv::Mat Tracking::GrabImageRGBD(const cv::Mat &imRGB,const cv::Mat &imD, cv::Mat
     if((fabs(mDepthMapFactor-1.0f)>1e-5) || imDepth.type()!=CV_32F)
         imDepth.convertTo(imDepth,CV_32F,mDepthMapFactor);
 
-    /*cv::namedWindow("imMaskB",cv::WINDOW_AUTOSIZE);
-    cv::imshow("imMaskB",255*imMask);
-    cv::namedWindow("imDepthB",cv::WINDOW_AUTOSIZE);
-    cv::imshow("imDepthB",imDepth*5000./65535.);
-    cv::namedWindow("mImGrayB",cv::WINDOW_AUTOSIZE);
-    cv::imshow("mImGrayB",mImGray);
-    cv::waitKey(1000);*/
-
-    /*cv::Mat _mImGray = mImGray.clone();
-    mImGray = mImGray*0;
-    _mImGray.copyTo(mImGray,imMask);
-
-    cv::Mat _imDepth = imDepth.clone();
-    imDepth = imDepth*0;
-    _imDepth.copyTo(imDepth,imMask);
-
-    cv::Mat __imRGB = _imRGB.clone();
-    _imRGB = _imRGB*0;
-    __imRGB.copyTo(_imRGB,imMask);*/
-
     mCurrentFrame = Frame(mImGray,imDepth,imMask,_imRGB,timestamp,mpORBextractorLeft,mpORBVocabulary,mK,mDistCoef,mbf,mThDepth);
 
-    // bbescos:
-
-#ifdef COMPILEDWITHC11
-    std::chrono::steady_clock::time_point t1LightTrack = std::chrono::steady_clock::now();
-#else
-    std::chrono::monotonic_clock::time_point t1LightTrack = std::chrono::monotonic_clock::now();
-#endif
-
     LightTrack();
-
-#ifdef COMPILEDWITHC11
-    std::chrono::steady_clock::time_point t2LightTrack = std::chrono::steady_clock::now();
-#else
-    std::chrono::monotonic_clock::time_point t2LightTrack = std::chrono::monotonic_clock::now();
-#endif
-
-    double tLightTrack= std::chrono::duration_cast<std::chrono::duration<double> >(t2LightTrack - t1LightTrack).count();
-
-    vTimesLightTrack.push_back(tLightTrack);
 
     imRGBOut = _imRGB;
 
     if (!mCurrentFrame.mTcw.empty())
     {
-        mGeometry.GeometricModelCorrection(mCurrentFrame,mImGray,imDepth,imRGBOut,imMask,vTimesFDOD,vTimesBR); //output parameters
+        mGeometry.GeometricModelCorrection(mCurrentFrame,imDepth,imMask);
     }
-
-    /*cv::namedWindow("imMask",cv::WINDOW_AUTOSIZE);
-    cv::imshow("imMask",255*imMask);
-    cv::namedWindow("imDepth",cv::WINDOW_AUTOSIZE);
-    cv::imshow("imDepth",imDepth*5000./65535.);
-    cv::namedWindow("mImGray",cv::WINDOW_AUTOSIZE);
-    cv::imshow("mImGray",mImGray);
-    cv::waitKey(1000);*/
 
     mCurrentFrame = Frame(mImGray,imDepth,imMask,imRGBOut,timestamp,mpORBextractorLeft,mpORBVocabulary,mK,mDistCoef,mbf,mThDepth);
 
     Track();
+
+    mGeometry.InpaintFrames(mCurrentFrame, mImGray, imDepth, imRGBOut, imMask);
 
     mGeometry.GeometricModelUpdateDB(mCurrentFrame);
 
@@ -313,8 +257,7 @@ cv::Mat Tracking::GrabImageRGBD(const cv::Mat &imRGB,const cv::Mat &imD, cv::Mat
 }
 
 cv::Mat Tracking::GrabImageRGBD(const cv::Mat &imRGB,const cv::Mat &imD, cv::Mat &mask,
-                                const double &timestamp, vector<float> &vTimesLightTrack,
-                                vector<float> &vTimesFDOD, vector<float> &vTimesBR)
+                                const double &timestamp)
 {
     mImGray = imRGB;
     cv::Mat imDepth = imD;
@@ -338,49 +281,11 @@ cv::Mat Tracking::GrabImageRGBD(const cv::Mat &imRGB,const cv::Mat &imD, cv::Mat
     if((fabs(mDepthMapFactor-1.0f)>1e-5) || imDepth.type()!=CV_32F)
         imDepth.convertTo(imDepth,CV_32F,mDepthMapFactor);
 
-    /*cv::namedWindow("imMaskB",cv::WINDOW_AUTOSIZE);
-    cv::imshow("imMaskB",255*imMask);
-    cv::namedWindow("imDepthB",cv::WINDOW_AUTOSIZE);
-    cv::imshow("imDepthB",imDepth*5000./65535.);
-    cv::namedWindow("mImGrayB",cv::WINDOW_AUTOSIZE);
-    cv::imshow("mImGrayB",mImGray);
-    cv::waitKey(1000);*/
-
-    /*cv::Mat _mImGray = mImGray.clone();
-    mImGray = mImGray*0;
-    _mImGray.copyTo(mImGray,imMask);*/
-
     mCurrentFrame = Frame(mImGray,imDepth,imMask,timestamp,mpORBextractorLeft,mpORBVocabulary,mK,mDistCoef,mbf,mThDepth);
-
-    // bbescos:
-
-#ifdef COMPILEDWITHC11
-    std::chrono::steady_clock::time_point t1LightTrack = std::chrono::steady_clock::now();
-#else
-    std::chrono::monotonic_clock::time_point t1LightTrack = std::chrono::monotonic_clock::now();
-#endif
 
     LightTrack();
 
-#ifdef COMPILEDWITHC11
-    std::chrono::steady_clock::time_point t2LightTrack = std::chrono::steady_clock::now();
-#else
-    std::chrono::monotonic_clock::time_point t2LightTrack = std::chrono::monotonic_clock::now();
-#endif
-
-    double tLightTrack= std::chrono::duration_cast<std::chrono::duration<double> >(t2LightTrack - t1LightTrack).count();
-
-    vTimesLightTrack.push_back(tLightTrack);
-
-    mGeometry.GeometricModelCorrection(mCurrentFrame,mImGray,imDepth,imMask,vTimesFDOD,vTimesBR); //output parameters
-
-    /*cv::namedWindow("imMask",cv::WINDOW_AUTOSIZE);
-    cv::imshow("imMask",255*imMask);
-    cv::namedWindow("imDepth",cv::WINDOW_AUTOSIZE);
-    cv::imshow("imDepth",imDepth*5000./65535.);
-    cv::namedWindow("mImGray",cv::WINDOW_AUTOSIZE);
-    cv::imshow("mImGray",mImGray);
-    cv::waitKey(1000);*/
+    mGeometry.GeometricModelCorrection(mCurrentFrame,mImGray,imMask);
 
     mCurrentFrame = Frame(mImGray,imDepth,imMask,timestamp,mpORBextractorLeft,mpORBVocabulary,mK,mDistCoef,mbf,mThDepth);
 

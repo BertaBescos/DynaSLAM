@@ -1,3 +1,10 @@
+/**
+* This file is part of DynaSLAM.
+* Copyright (C) 2018 Berta Bescos <bbescos at unizar dot es> (University of Zaragoza)
+* For more information see <https://github.com/bertabescos/DynaSLAM>.
+*
+*/
+
 #include "Geometry.h"
 #include <algorithm>
 #include "Frame.h"
@@ -20,117 +27,22 @@ Geometry::Geometry()
 }
 
 void Geometry::GeometricModelCorrection(const ORB_SLAM2::Frame &currentFrame,
-                                        cv::Mat &imGray, cv::Mat &imDepth,
-                                        cv::Mat &imRGB, cv::Mat &mask,
-                                        vector<float> &vTimesFDOD, vector<float> &vTimesBR){
+                                        cv::Mat &imDepth, cv::Mat &mask){
     if(currentFrame.mTcw.empty()){
-        //std::cout << "Geometry not working." << std::endl;
+        std::cout << "Geometry not working." << std::endl;
     }
     else if (mDB.mNumElem >= ELEM_INITIAL_MAP){
-
-#ifdef COMPILEDWITHC11
-        std::chrono::steady_clock::time_point t1FDOD = std::chrono::steady_clock::now();
-#else
-        std::chrono::monotonic_clock::time_point t1FDOD = std::chrono::monotonic_clock::now();
-#endif
-
         vector<ORB_SLAM2::Frame> vRefFrames = GetRefFrames(currentFrame);
-        //std::cout << "GetRefFrames OK!" << std::endl;
         vector<DynKeyPoint> vDynPoints = ExtractDynPoints(vRefFrames,currentFrame);
-        //std::cout << "ExtractDynPoints OK!" << std::endl;
         mask = DepthRegionGrowing(vDynPoints,imDepth);
-        //std::cout << "DepthRegionGrowing OK!" << std::endl;
         CombineMasks(currentFrame,mask);
-        //std::cout << "CombineMasks OK!" << std::endl;
-
-#ifdef COMPILEDWITHC11
-        std::chrono::steady_clock::time_point t2FDOD = std::chrono::steady_clock::now();
-#else
-        std::chrono::monotonic_clock::time_point t2FDOD = std::chrono::monotonic_clock::now();
-#endif
-
-        double tFDOD= std::chrono::duration_cast<std::chrono::duration<double> >(t2FDOD - t1FDOD).count();
-
-        vTimesFDOD.push_back(tFDOD);
-
-
-#ifdef COMPILEDWITHC11
-        std::chrono::steady_clock::time_point t1BR = std::chrono::steady_clock::now();
-#else
-        std::chrono::monotonic_clock::time_point t1BR = std::chrono::monotonic_clock::now();
-#endif
-
-        //FillRGBD(currentFrame,mask,imGray,imDepth,imRGB);
-        //std::cout << "FillRGBD OK!" << std::endl;
-
-#ifdef COMPILEDWITHC11
-        std::chrono::steady_clock::time_point t2BR = std::chrono::steady_clock::now();
-#else
-        std::chrono::monotonic_clock::time_point t2BR = std::chrono::monotonic_clock::now();
-#endif
-
-        double tBR= std::chrono::duration_cast<std::chrono::duration<double> >(t2BR - t1BR).count();
-
-        vTimesBR.push_back(tBR);
-
     }
 }
 
-void Geometry::GeometricModelCorrection(const ORB_SLAM2::Frame &currentFrame,
-                                        cv::Mat &imGray, cv::Mat &imDepth,
-                                        cv::Mat &mask, vector<float> &vTimesFDOD,
-                                        vector<float> &vTimesBR){
-    if(currentFrame.mTcw.empty()){
-        //std::cout << "Geometry not working." << std::endl;
-    }
-    else if (mDB.mNumElem >= ELEM_INITIAL_MAP){
-
-#ifdef COMPILEDWITHC11
-        std::chrono::steady_clock::time_point t1FDOD = std::chrono::steady_clock::now();
-#else
-        std::chrono::monotonic_clock::time_point t1FDOD = std::chrono::monotonic_clock::now();
-#endif
-
-        vector<ORB_SLAM2::Frame> vRefFrames = GetRefFrames(currentFrame);
-        //std::cout << "GetRefFrames OK!" << std::endl;
-        vector<DynKeyPoint> vDynPoints = ExtractDynPoints(vRefFrames,currentFrame);
-        //std::cout << "ExtractDynPoints OK!" << std::endl;
-        mask = DepthRegionGrowing(vDynPoints,imDepth);
-        //std::cout << "DepthRegionGrowing OK!" << std::endl;
-        CombineMasks(currentFrame,mask);
-        //std::cout << "CombineMasks OK!" << std::endl;
-
-#ifdef COMPILEDWITHC11
-        std::chrono::steady_clock::time_point t2FDOD = std::chrono::steady_clock::now();
-#else
-        std::chrono::monotonic_clock::time_point t2FDOD = std::chrono::monotonic_clock::now();
-#endif
-
-        double tFDOD= std::chrono::duration_cast<std::chrono::duration<double> >(t2FDOD - t1FDOD).count();
-
-        vTimesFDOD.push_back(tFDOD);
-
-
-#ifdef COMPILEDWITHC11
-        std::chrono::steady_clock::time_point t1BR = std::chrono::steady_clock::now();
-#else
-        std::chrono::monotonic_clock::time_point t1BR = std::chrono::monotonic_clock::now();
-#endif
-
-        //FillRGBD(currentFrame,mask,imGray,imDepth);
-        //std::cout << "FillRGBD OK!" << std::endl;
-
-#ifdef COMPILEDWITHC11
-        std::chrono::steady_clock::time_point t2BR = std::chrono::steady_clock::now();
-#else
-        std::chrono::monotonic_clock::time_point t2BR = std::chrono::monotonic_clock::now();
-#endif
-
-        double tBR= std::chrono::duration_cast<std::chrono::duration<double> >(t2BR - t1BR).count();
-
-        vTimesBR.push_back(tBR);
-
-    }
+void Geometry::InpaintFrames(const ORB_SLAM2::Frame &currentFrame,
+                             cv::Mat &imGray, cv::Mat &imDepth,
+                             cv::Mat &imRGB, cv::Mat &mask){
+    FillRGBD(currentFrame,mask,imGray,imDepth,imRGB);
 }
 
 void Geometry::GeometricModelUpdateDB(const ORB_SLAM2::Frame &currentFrame){

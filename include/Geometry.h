@@ -1,3 +1,10 @@
+/**
+* This file is part of DynaSLAM.
+* Copyright (C) 2018 Berta Bescos <bbescos at unizar dot es> (University of Zaragoza)
+* For more information see <https://github.com/bertabescos/DynaSLAM>.
+*
+*/
+
 #ifndef GEOMETRY_H
 #define GEOMETRY_H
 
@@ -76,8 +83,8 @@ private:
 public:
     Geometry();
     ~Geometry() = default;
-    void GeometricModelCorrection(const ORB_SLAM2::Frame &currentFrame, cv::Mat &imGray, cv::Mat &imDepth, cv::Mat &imRGB, cv::Mat &mask, vector<float> &vTimesFDOD, vector<float> &vTimesBR);
-    void GeometricModelCorrection(const ORB_SLAM2::Frame &currentFrame, cv::Mat &imGray, cv::Mat &imDepth, cv::Mat &mask, vector<float> &vTimesFDOD, vector<float> &vTimesBR);
+    void GeometricModelCorrection(const ORB_SLAM2::Frame &currentFrame, cv::Mat &imDepth, cv::Mat &mask);
+    void InpaintFrames(const ORB_SLAM2::Frame &currentFrame, cv::Mat &imGray, cv::Mat &imDepth, cv::Mat &imRGB, cv::Mat &mask);
     void GeometricModelUpdateDB(const ORB_SLAM2::Frame &mCurrentFrame);
 };
 
