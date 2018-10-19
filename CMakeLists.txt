@@ -53,13 +53,13 @@ if (NOT PythonLibs_FOUND)
     message(FATAL_ERROR "PYTHON LIBS not found.")
 else()
     message("PYTHON LIBS were found!")
-    message("PYTHON LIBS DIRECTORY: " ${PYTHON_LIBRARY}) #Problema porque me está encontrando 3.5 y yo quiero 2.7
+    message("PYTHON LIBS DIRECTORY: " ${PYTHON_LIBRARY})
 endif()
 
-find_package(Boost REQUIRED COMPONENTS thread) #new
+find_package(Boost REQUIRED COMPONENTS thread)
 if(Boost_FOUND)
     message("Boost was found!")
-    message("Boost Headers DIRECTORY: " ${Boost_INCLUDE_DIRS}) #No está encontrando lo que quiero
+    message("Boost Headers DIRECTORY: " ${Boost_INCLUDE_DIRS})
     message("Boost LIBS DIRECTORY: " ${Boost_LIBRARY_DIRS})
     message("Found Libraries: " ${Boost_LIBRARIES})
 endif()
@@ -101,11 +101,9 @@ src/KeyFrameDatabase.cc
 src/Sim3Solver.cc
 src/Initializer.cc
 src/Viewer.cc
-#Included by Berta:
 src/Conversion.cc
 src/MaskNet.cc
 src/Geometry.cc
-#src/MaskNetStereo.cc
 )
 
 target_link_libraries(${PROJECT_NAME}
@@ -114,7 +112,7 @@ ${EIGEN3_LIBS}
 ${Pangolin_LIBRARIES}
 ${PROJECT_SOURCE_DIR}/Thirdparty/DBoW2/lib/libDBoW2.so
 ${PROJECT_SOURCE_DIR}/Thirdparty/g2o/lib/libg2o.so
-/usr/lib/x86_64-linux-gnu/libpython2.7.so #Para forzar que lo busque para Python 2.7 y no 3.5
+/usr/lib/x86_64-linux-gnu/libpython2.7.so
 ${Boost_LIBRARIES}
 )
 
