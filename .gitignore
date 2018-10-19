@@ -20,3 +20,10 @@ src/python/utils.pyc
 src/python/visualize.pyc
 
 src/python/mask_rcnn_coco\.h5
+
+CameraTrajectory.txt
+KeyFrameTrajectory.txt
+
+CMakeLists.txt.user
+
+EvaluateTrajectory/
