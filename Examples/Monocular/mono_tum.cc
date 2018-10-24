@@ -28,7 +28,7 @@ int main(int argc, char **argv)
 {
     if(argc != 4 && argc != 5)
     {
-        cerr << endl << "Usage: ./mono_tum path_to_vocabulary path_to_settings path_to_sequence" << endl;
+        cerr << endl << "Usage: ./mono_tum path_to_vocabulary path_to_settings path_to_sequence (path_to_masks)" << endl;
         return 1;
     }
 
@@ -40,7 +40,7 @@ int main(int argc, char **argv)
 
     int nImages = vstrImageFilenames.size();
 
-    // Initialize Mask net (Included by Berta)
+    // Initialize Mask R-CNN
     cout << "Loading Mask net. This could take a while..." << endl;
     DynaSLAM::SegmentDynObject* MaskNet;
     if (argc==5){
@@ -62,7 +62,7 @@ int main(int argc, char **argv)
     // Main loop
     cv::Mat im;
 
-    // Dilation settings (Included by Berta)
+    // Dilation settings
     int dilation_size = 15;
     cv::Mat kernel = getStructuringElement(cv::MORPH_ELLIPSE,
                                         cv::Size( 2*dilation_size + 1, 2*dilation_size+1 ),
@@ -87,7 +87,7 @@ int main(int argc, char **argv)
         std::chrono::monotonic_clock::time_point t1 = std::chrono::monotonic_clock::now();
 #endif
 
-        // Segment out the images (Included by Berta)
+        // Segment out the images
         cv::Mat mask = cv::Mat::ones(480,640,CV_8U);
         if(argc == 5){
             cv::Mat maskRCN;
@@ -98,7 +98,7 @@ int main(int argc, char **argv)
         }
 
         // Pass the image to the SLAM system
-        SLAM.TrackMonocular(im,mask,tframe); //(Modified by Berta)
+        SLAM.TrackMonocular(im,mask,tframe);
 
 #ifdef COMPILEDWITHC11
         std::chrono::steady_clock::time_point t2 = std::chrono::steady_clock::now();
