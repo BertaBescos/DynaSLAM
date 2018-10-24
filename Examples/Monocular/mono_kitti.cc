@@ -29,7 +29,7 @@ int main(int argc, char **argv)
 {
     if(argc != 4 && argc != 5)
     {
-        cerr << endl << "Usage: ./mono_kitti path_to_vocabulary path_to_settings path_to_sequence" << endl;
+        cerr << endl << "Usage: ./mono_kitti path_to_vocabulary path_to_settings path_to_sequence (path_to_masks)" << endl;
         return 1;
     }
 
@@ -40,8 +40,8 @@ int main(int argc, char **argv)
 
     int nImages = vstrImageFilenames.size();
 
-    // Initialize Mask net (Included by Berta)
-    cout << "Loading Mask net. This could take a while..." << endl;
+    // Initialize Mask R-CNN
+    cout << "Loading Mask R-CNN. This could take a while..." << endl;
     DynaSLAM::SegmentDynObject *MaskNet;
     if (argc==5){
         MaskNet=new DynaSLAM::SegmentDynObject();
@@ -62,7 +62,7 @@ int main(int argc, char **argv)
     // Main loop
     cv::Mat im;
 
-    // Dilation settings (Included by Berta)
+    // Dilation settings
     int dilation_size = 5;
     cv::Mat kernel = getStructuringElement(cv::MORPH_ELLIPSE,
                                         cv::Size( 2*dilation_size + 1, 2*dilation_size+1 ),
@@ -86,8 +86,7 @@ int main(int argc, char **argv)
         std::chrono::monotonic_clock::time_point t1 = std::chrono::monotonic_clock::now();
 #endif
 
-        // Segment out the images (Included by Berta)
-        //cout << string(argv[4]) << "--/--" << vstrImageFilenames[ni] << endl;
+        // Segment out the images
 
         int h = im.rows;
         int w = im.cols;
@@ -99,15 +98,6 @@ int main(int argc, char **argv)
             cv::dilate(Mask, Mask_dil, kernel);
             MaskX = MaskX - Mask_dil;
         }
-        //cv::Mat Mask;
-        //Mask = MaskNet.GetSegmentation(im); //0 background y 1 foreground
-        //Mask.cv::Mat::convertTo(Mask,CV_8U); //0 background y 1 foreground
-        //Mask = 255*Mask; //0 background y 255 foreground
-        //cv::Mat Mask_dil = Mask.clone();
-        //cv::dilate(Mask, Mask_dil, kernel);
-        //int h = im.rows;
-        //int w = im.cols;
-        //cv::Mat MaskX = 255*cv::Mat::ones(h,w,CV_8U) - Mask_dil; //255 background y 0 foreground BE CAREFUL WITH SIZE
 
         // Pass the image to the SLAM system
         SLAM.TrackMonocular(im,MaskX,tframe); //(Modified by Berta)

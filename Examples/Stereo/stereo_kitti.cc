@@ -28,7 +28,7 @@ int main(int argc, char **argv)
 {
     if(argc != 4  && argc != 5)
     {
-        cerr << endl << "Usage: ./stereo_kitti path_to_vocabulary path_to_settings path_to_sequence" << endl;
+        cerr << endl << "Usage: ./stereo_kitti path_to_vocabulary path_to_settings path_to_sequence (path_to_masks)" << endl;
         return 1;
     }
 
@@ -40,8 +40,8 @@ int main(int argc, char **argv)
 
     const int nImages = vstrImageLeft.size();
 
-    // Initialize Mask net (Included by Berta)
-    cout << "Loading Mask net. This could take a while..." << endl;
+    // Initialize Mask R-CNN
+    cout << "Loading Mask R-CNN. This could take a while..." << endl;
     DynaSLAM::SegmentDynObject *MaskNet;
     if (argc==5){
          MaskNet = new DynaSLAM::SegmentDynObject();
@@ -62,7 +62,7 @@ int main(int argc, char **argv)
     // Main loop
     cv::Mat imLeft, imRight;
 
-    // Dilation settings (Included by Berta)
+    // Dilation settings
     int dilation_size = 5;
     cv::Mat kernel = getStructuringElement(cv::MORPH_ELLIPSE,
                                         cv::Size( 2*dilation_size + 1, 2*dilation_size+1 ),
@@ -93,7 +93,7 @@ int main(int argc, char **argv)
         cv::Mat MaskRightX = 255*cv::Mat::ones(h,w,CV_8U);
         cv::Mat MaskLeftX = 255*cv::Mat::ones(h,w,CV_8U);
 
-        // Segment out the images (Included by Berta)
+        // Segment out the images
         if (argc == 5){
             cv::Mat MaskLeft, MaskRight;
             MaskLeft = MaskNet->GetSegmentation(imLeft,string(argv[4])+"/imLeft",vstrImageLeft[ni].replace(0,57,""));
