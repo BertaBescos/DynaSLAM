@@ -117,18 +117,13 @@ int main(int argc, char **argv)
 
         // Segment out the images
         cv::Mat mask = cv::Mat::ones(480,640,CV_8U);
-        if(argc == 6 || argc == 7){
+        if (argc == 6 || argc == 7)
+        {
             cv::Mat maskRCNN;
             maskRCNN = MaskNet->GetSegmentation(imRGB,string(argv[5]),vstrImageFilenamesRGB[ni].replace(0,4,""));
             cv::Mat maskRCNNdil = maskRCNN.clone();
             cv::dilate(maskRCNN,maskRCNNdil, kernel);
             mask = mask - maskRCNNdil;
-        }
-
-        if(argc ==5)
-        {
-            mask = cv::imread(string(argv[3])+"/"+vstrImageFilenamesRGB[ni].replace(0,4,"mask/"),CV_LOAD_IMAGE_UNCHANGED);
-            if (mask.empty()) {mask = cv::Mat::ones(480,640,CV_8U);}
         }
 
         // Pass the image to the SLAM system

@@ -333,9 +333,9 @@ Frame::Frame(const cv::Mat &imGray, const cv::Mat &mask, const double &timeStamp
     mvInvLevelSigma2 = mpORBextractorLeft->GetInverseScaleSigmaSquares();
 
     // ORB extraction
-    ExtractORB(0,imGray); //ExtractORB(0,imGray); (Modified by Berta)
+    ExtractORB(0,imGray);
 
-    // Delete those ORB points that fall in Mask borders (Included by Berta)
+    // Delete those ORB points that fall in mask borders
     cv::Mat Mask_dil = mask.clone();
     int dilation_size = 15;
     cv::Mat kernel = getStructuringElement(cv::MORPH_ELLIPSE,
