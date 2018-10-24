@@ -125,13 +125,11 @@ int main(int argc, char **argv)
             mask = mask - maskRCNNdil;
         }
 
-
-
         if(argc ==5)
         {
             mask = cv::imread(string(argv[3])+"/"+vstrImageFilenamesRGB[ni].replace(0,4,"mask/"),CV_LOAD_IMAGE_UNCHANGED);
             if (mask.empty()) {mask = cv::Mat::ones(480,640,CV_8U);}
-         }
+        }
 
         // Pass the image to the SLAM system
         if (argc == 7){SLAM.TrackRGBD(imRGB,imD,mask,tframe,imRGBOut,imDOut,maskOut);}

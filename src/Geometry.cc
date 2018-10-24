@@ -455,18 +455,16 @@ cv::Mat Geometry::DepthRegionGrowing(const vector<DynKeyPoint> &vDynPoints,const
         cv::Mat kernel = getStructuringElement(cv::MORPH_ELLIPSE,
                                                cv::Size( 2*dilation_size + 1, 2*dilation_size+1 ),
                                                cv::Point( dilation_size, dilation_size ) );
-
         maskG.cv::Mat::convertTo(maskG,CV_8U);
         cv::dilate(maskG, maskG, kernel);
-        cv::Mat _maskG = cv::Mat::ones(480,640,CV_8U);
-        maskG = _maskG - maskG;
     }
     else
     {
         maskG.cv::Mat::convertTo(maskG,CV_8U);
-        cv::Mat _maskG = cv::Mat::ones(480,640,CV_8U);
-        maskG = _maskG - maskG;
     }
+
+    cv::Mat _maskG = cv::Mat::ones(480,640,CV_8U);
+    maskG = _maskG - maskG;
 
     /*cv::namedWindow("maskG",cv::WINDOW_AUTOSIZE);
     cv::imshow("maskG",255*maskG);
@@ -1127,8 +1125,8 @@ cv::Mat Geometry::RegionGrowing(const cv::Mat &im,int &x,int &y,const float &reg
     neigb.at<float>(3,0) = 0;
     neigb.at<float>(3,1) = 1;
 
-    while(pixdist < reg_maxdist && reg_size < im.total()){
-
+    while(pixdist < reg_maxdist && reg_size < im.total())
+    {
         for (int j(0); j< 4; j++)
         {
             //Calculate the neighbour coordinate
@@ -1163,25 +1161,30 @@ cv::Mat Geometry::RegionGrowing(const cv::Mat &im,int &x,int &y,const float &reg
         cv::Point ind, maxpos;
         cv::minMaxLoc(dist, &pixdist, &max, &ind, &maxpos);
         int index = ind.y;
-        J.at<float>(y,x) = -1.;
-        reg_size += 1;
 
-        // Calculate the new mean of the region
-        reg_mean = (reg_mean*reg_size + neg_list.at<float>(index,2))/(reg_size+1);
+        if (index != -1)
+        {
+            J.at<float>(y,x) = -1.;
+            reg_size += 1;
 
-        // Save the x and y coordinates of the pixel (for the neighbour add proccess)
-        x = neg_list.at<float>(index,0);
-        y = neg_list.at<float>(index,1);
+            // Calculate the new mean of the region
+            reg_mean = (reg_mean*reg_size + neg_list.at<float>(index,2))/(reg_size+1);
 
-        // Remove the pixel from the neighbour (check) list
-        neg_list.at<float>(index,0) = neg_list.at<float>(neg_pos,0);
-        neg_list.at<float>(index,1) = neg_list.at<float>(neg_pos,1);
-        neg_list.at<float>(index,2) = neg_list.at<float>(neg_pos,2);
-        neg_pos -= 1;
+            // Save the x and y coordinates of the pixel (for the neighbour add proccess)
+            x = neg_list.at<float>(index,0);
+            y = neg_list.at<float>(index,1);
 
-        /*cv::namedWindow("J",cv::WINDOW_AUTOSIZE);
-        cv::imshow("J",J);
-        cv::waitKey(10);*/
+            // Remove the pixel from the neighbour (check) list
+            neg_list.at<float>(index,0) = neg_list.at<float>(neg_pos,0);
+            neg_list.at<float>(index,1) = neg_list.at<float>(neg_pos,1);
+            neg_list.at<float>(index,2) = neg_list.at<float>(neg_pos,2);
+            neg_pos -= 1;
+        }
+        else
+        {
+            pixdist = reg_maxdist;
+        }
+
     }
 
     J = cv::abs(J);
