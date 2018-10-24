@@ -188,7 +188,6 @@ vector<Geometry::DynKeyPoint> Geometry::ExtractDynPoints(const vector<ORB_SLAM2:
 
         if (vAllMPw.empty())
         {
-            //std::cout << "First if" << std::endl;
             vAllMPw = vMPw;
             vAllMatRefFrame = matRefFrame;
             vAllLabels = vLabels;
@@ -198,7 +197,6 @@ vector<Geometry::DynKeyPoint> Geometry::ExtractDynPoints(const vector<ORB_SLAM2:
         {
             if (!vMPw.empty())
             {
-                //std::cout << "Second if -> vAllMPw.size(): " << vAllMPw.size() << " and vMPw.size(): " << vMPw.size() << std::endl;
                 hconcat(vAllMPw,vMPw,vAllMPw);
                 vconcat(vAllMatRefFrame,matRefFrame,vAllMatRefFrame);
                 vconcat(vAllLabels,vLabels,vAllLabels);
@@ -267,7 +265,6 @@ vector<Geometry::DynKeyPoint> Geometry::ExtractDynPoints(const vector<ORB_SLAM2:
         cv::Mat mat2ProjDepth(matCurrentFrame.cols,1,CV_32F);
         cv::Mat v2Labels(matCurrentFrame.cols,1,CV_32F);
         cv::Mat _vAllDepthRefFrame(matCurrentFrame.cols,1,CV_32F);
-        //cv::Mat matDepthCurrentFrame(matCurrentFrame.cols,1,CV_64F);
 
         int j = 0;
         for (int i(0); i < matCurrentFrame.cols; i++)
@@ -279,7 +276,6 @@ vector<Geometry::DynKeyPoint> Geometry::ExtractDynPoints(const vector<ORB_SLAM2:
                 const float d = currentFrame.mImDepth.at<float>(y,x);
                 if (d > 0)
                 {
-                    //matDepthCurrentFrame.at<double>(j,0) = d;
                     mat2CurrentFrame.at<float>(j,0) = x;
                     mat2CurrentFrame.at<float>(j,1) = y;
                     v2AllMatRefFrame.at<float>(j,0) = vAllMatRefFrame.at<float>(i,0);
@@ -293,7 +289,6 @@ vector<Geometry::DynKeyPoint> Geometry::ExtractDynPoints(const vector<ORB_SLAM2:
                 }
             }
         }
-        //matDepthCurrentFrame = matDepthCurrentFrame.rowRange(0,j);
         vAllDepthRefFrame = _vAllDepthRefFrame.rowRange(0,j);
         vAllMatRefFrame = v2AllMatRefFrame.rowRange(0,j);
         matProjDepth = mat2ProjDepth.rowRange(0,j);
@@ -353,20 +348,6 @@ vector<Geometry::DynKeyPoint> Geometry::ExtractDynPoints(const vector<ORB_SLAM2:
         matProjDepth = _matProjDepth.rowRange(0,_s);
         matCurrentFrame = _matCurrentFrame.rowRange(0,_s);
 
-        /*cv::Mat cFrame1 = currentFrame.mImGray.clone();
-        for (int j(0); j < matCurrentFrame.rows; j++)
-        {
-            cv::Point center;
-            int x = matCurrentFrame.at<float>(j,0);
-            int y = matCurrentFrame.at<float>(j,1);
-            center = cv::Point(x,y);
-            cv::circle(cFrame1,center,1,CV_RGB(255,0,0),3);
-        }
-
-        cv::namedWindow("cFrame1",cv::WINDOW_AUTOSIZE);
-        cv::imshow("cFrame1",cFrame1);
-        cv::waitKey(100);*/
-
         mDepthThreshold = 0.6;
 
         cv::Mat matDepthDifference = matProjDepth - matDepthCurrentFrame;
@@ -390,15 +371,6 @@ vector<Geometry::DynKeyPoint> Geometry::ExtractDynPoints(const vector<ORB_SLAM2:
                 double var = _stddev*_stddev;
                 if (var < mVarThreshold)
                 {
-
-                    /*std::cout << "Depth Diff: " << matDepthDifference.at<float>(i,0) << std::endl;
-                    std::cout << "Depth ->CF: " << matDepthCurrentFrame.at<float>(i,0) << std::endl;
-                    std::cout << "Depth Proj: " << matProjDepth.at<float>(i,0) << std::endl;
-                    std::cout << "Depth ->KF: " << vAllDepthRefFrame.at<float>(i,0) << std::endl;
-                    std::cout << "Variance  : " << var << std::endl;
-                    std::cout << "(" << (int)matCurrentFrame.at<float>(i,0) << "," << (int)matCurrentFrame.at<float>(i,1) << ")" << std::endl;
-                    std::cout << " " << std::endl;*/
-
                     DynKeyPoint dynPoint;
                     dynPoint.mPoint.x = matCurrentFrame.at<float>(i,0);
                     dynPoint.mPoint.y = matCurrentFrame.at<float>(i,1);
@@ -407,20 +379,6 @@ vector<Geometry::DynKeyPoint> Geometry::ExtractDynPoints(const vector<ORB_SLAM2:
                 }
             }
         }
-
-        /*cv::Mat cFrame2 = currentFrame.mImGray.clone();
-        for (int j(0); j < vDynPoints.size(); j++)
-        {
-            cv::Point center;
-            int x = (int)vDynPoints[j].mPoint.x;
-            int y = (int)vDynPoints[j].mPoint.y;
-            center = cv::Point(x,y);
-            cv::circle(cFrame2,center,1,CV_RGB(255,255,255),3);
-        }
-
-        cv::namedWindow("cFrame2",cv::WINDOW_AUTOSIZE);
-        cv::imshow("cFrame2",cFrame2);
-        cv::waitKey(100);*/
 
         return vDynPoints;
     }
@@ -466,23 +424,15 @@ cv::Mat Geometry::DepthRegionGrowing(const vector<DynKeyPoint> &vDynPoints,const
     cv::Mat _maskG = cv::Mat::ones(480,640,CV_8U);
     maskG = _maskG - maskG;
 
-    /*cv::namedWindow("maskG",cv::WINDOW_AUTOSIZE);
-    cv::imshow("maskG",255*maskG);
-    cv::waitKey(100);*/
-
     return maskG;
 }
 
 
 
-void Geometry::CombineMasks(const ORB_SLAM2::Frame &currentFrame, cv::Mat &mask){
-
+void Geometry::CombineMasks(const ORB_SLAM2::Frame &currentFrame, cv::Mat &mask)
+{
     cv::Mat _maskL = cv::Mat::ones(currentFrame.mImMask.size(),currentFrame.mImMask.type());
     _maskL = _maskL - currentFrame.mImMask;
-
-    /*cv::namedWindow("maskL",cv::WINDOW_AUTOSIZE);
-    cv::imshow("maskL",255*currentFrame.mImMask);
-    cv::waitKey(100);*/
 
     cv::Mat _maskG = cv::Mat::ones(mask.size(),mask.type());
     _maskG = _maskG - mask;
@@ -493,11 +443,8 @@ void Geometry::CombineMasks(const ORB_SLAM2::Frame &currentFrame, cv::Mat &mask)
     __mask = __mask - _mask;
     mask = __mask;
 
-    /*cv::namedWindow("mask",cv::WINDOW_AUTOSIZE);
-    cv::imshow("mask",255*mask);
-    cv::waitKey(100);*/
-
 }
+
 float Area(float x1, float x2, float y1, float y2){
     float xc1 = max(x1-0.5,x2-0.5);
     float xc2 = min(x1+0.5,x2+0.5);
@@ -697,13 +644,6 @@ void Geometry::FillRGBD(const ORB_SLAM2::Frame &currentFrame,cv::Mat &mask,cv::M
                 }
                 imMinDepth.at<float>(y_d,x_d) = min(imMinDepth.at<float>(y_d,x_d),matProjDepth.at<float>(j,0));
             }
-
-
-            //int x = int(ceil(vProjPixels.at<float>(j,0)));
-            //int y = int(ceil(vProjPixels.at<float>(j,1)));
-            //imGray.at<uchar>(y,x) = refFrame.mImGray.at<uchar>(_y,_x);
-            //imDepth.at<float>(y,x) = matProjDepth.at<float>(j,0);
-            //mask.at<uchar>(y,x) = 1;
         }
     }
 
@@ -715,14 +655,6 @@ void Geometry::FillRGBD(const ORB_SLAM2::Frame &currentFrame,cv::Mat &mask,cv::M
     imGrayAccumulator.copyTo(imGray,mask);
     imDepth = imDepth*0;
     imDepthAccumulator.copyTo(imDepth,mask);
-
-    /*cv::namedWindow("imGray1",cv::WINDOW_AUTOSIZE);
-    cv::imshow("imGray1",imGray);
-    cv::waitKey(100);*/
-
-    /*cv::namedWindow("mask",cv::WINDOW_AUTOSIZE);
-    cv::imshow("mask",255*mask);
-    cv::waitKey(100);*/
 
 }
 
@@ -956,13 +888,6 @@ void Geometry::FillRGBD(const ORB_SLAM2::Frame &currentFrame,cv::Mat &mask,cv::M
                 }
                 imMinDepth.at<float>(y_d,x_d) = min(imMinDepth.at<float>(y_d,x_d),matProjDepth.at<float>(j,0));
             }
-
-
-            //int x = int(ceil(vProjPixels.at<float>(j,0)));
-            //int y = int(ceil(vProjPixels.at<float>(j,1)));
-            //imGray.at<uchar>(y,x) = refFrame.mImGray.at<uchar>(_y,_x);
-            //imDepth.at<float>(y,x) = matProjDepth.at<float>(j,0);
-            //mask.at<uchar>(y,x) = 1;
         }
     }
 
@@ -992,14 +917,6 @@ void Geometry::FillRGBD(const ORB_SLAM2::Frame &currentFrame,cv::Mat &mask,cv::M
     imGrayAccumulator.copyTo(imGray,mask);
     imDepth = imDepth*0;
     imDepthAccumulator.copyTo(imDepth,mask);
-
-    /*cv::namedWindow("imGray1",cv::WINDOW_AUTOSIZE);
-    cv::imshow("imGray1",imGray);
-    cv::waitKey(100);*/
-
-    /*cv::namedWindow("mask",cv::WINDOW_AUTOSIZE);
-    cv::imshow("mask",255*mask);
-    cv::waitKey(100);*/
 
 }
 
