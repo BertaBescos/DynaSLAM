@@ -55,13 +55,13 @@ int main(int argc, char **argv)
     }
 
     // Initialize Mask R-CNN
-    cout << "Loading Mask R-CNN. This could take a while..." << endl;
     DynaSLAM::SegmentDynObject *MaskNet;
     if (argc==6 || argc==7)
     {
+        cout << "Loading Mask R-CNN. This could take a while..." << endl;
         MaskNet = new DynaSLAM::SegmentDynObject();
+        cout << "Mask R-CNN loaded!" << endl;
     }
-    cout << "Mask R-CNN loaded!" << endl;
 
     // Create SLAM system. It initializes all system threads and gets ready to process frames.
     ORB_SLAM2::System SLAM(argv[1],argv[2],ORB_SLAM2::System::RGBD,true);
@@ -87,6 +87,8 @@ int main(int argc, char **argv)
         dir = string(argv[6]) + "/rgb/";
         mkdir(dir.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
         dir = string(argv[6]) + "/depth/";
+        mkdir(dir.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+        dir = string(argv[6]) + "/mask/";
         mkdir(dir.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
     }
 
