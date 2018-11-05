@@ -17,7 +17,14 @@ src/python/config.pyc
 src/python/MaskRCNN.pyc
 src/python/model.pyc
 src/python/utils.pyc
-src/python/visualize.pyc
+src/python/Check.pyc
+
+src/python/visualize.py
+src/python/MaskRCNNStereo.py
+src/python/parallel_model.py
+src/python/shapes.py
+
+src/python/__pycache__/
 
 src/python/mask_rcnn_coco\.h5
 
