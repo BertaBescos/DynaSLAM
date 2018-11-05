@@ -56,7 +56,6 @@ class_names = ['BG', 'person', 'bicycle', 'car', 'motorcycle', 'airplane',
 print 'Initialated Mask RCNN network...'
 
 def GetDynSeg(image,image2=None):
-	print('PruebaPython')
 	h = image.shape[0]
 	w = image.shape[1]
 	if len(image.shape) == 2:
