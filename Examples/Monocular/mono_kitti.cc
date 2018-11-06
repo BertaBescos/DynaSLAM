@@ -93,14 +93,15 @@ int main(int argc, char **argv)
         cv::Mat MaskX = 255*cv::Mat::ones(h,w,CV_8U);
         if(argc == 5){
             cv::Mat Mask;
-            Mask = MaskNet->GetSegmentation(im,string(argv[4]),vstrImageFilenames[ni].replace(0,57,""));
+            Mask = MaskNet->GetSegmentation(im,string(argv[4]),vstrImageFilenames[ni].replace(
+                        vstrImageFilenames[ni].begin(), vstrImageFilenames[ni].end()-10,""));
             cv::Mat Mask_dil = Mask.clone();
             cv::dilate(Mask, Mask_dil, kernel);
             MaskX = MaskX - Mask_dil;
         }
 
         // Pass the image to the SLAM system
-        SLAM.TrackMonocular(im,MaskX,tframe); //(Modified by Berta)
+        SLAM.TrackMonocular(im,MaskX,tframe);
 
 #ifdef COMPILEDWITHC11
         std::chrono::steady_clock::time_point t2 = std::chrono::steady_clock::now();
