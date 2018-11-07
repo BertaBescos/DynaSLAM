@@ -41,12 +41,13 @@ int main(int argc, char **argv)
     int nImages = vstrImageFilenames.size();
 
     // Initialize Mask R-CNN
-    cout << "Loading Mask R-CNN. This could take a while..." << endl;
     DynaSLAM::SegmentDynObject *MaskNet;
-    if (argc==5){
-        MaskNet=new DynaSLAM::SegmentDynObject();
+    if (argc==5)
+    {
+        cout << "Loading Mask R-CNN. This could take a while..." << endl;
+        MaskNet = new DynaSLAM::SegmentDynObject();
+        cout << "Mask R-CNN loaded!" << endl;
     }
-    cout << "Mask net loaded!" << endl;
 
     // Create SLAM system. It initializes all system threads and gets ready to process frames.
     ORB_SLAM2::System SLAM(argv[1],argv[2],ORB_SLAM2::System::MONOCULAR,true);
@@ -63,7 +64,7 @@ int main(int argc, char **argv)
     cv::Mat im;
 
     // Dilation settings
-    int dilation_size = 5;
+    int dilation_size = 15;
     cv::Mat kernel = getStructuringElement(cv::MORPH_ELLIPSE,
                                         cv::Size( 2*dilation_size + 1, 2*dilation_size+1 ),
                                         cv::Point( dilation_size, dilation_size ) );
@@ -87,21 +88,21 @@ int main(int argc, char **argv)
 #endif
 
         // Segment out the images
-
         int h = im.rows;
         int w = im.cols;
-        cv::Mat MaskX = 255*cv::Mat::ones(h,w,CV_8U);
-        if(argc == 5){
-            cv::Mat Mask;
-            Mask = MaskNet->GetSegmentation(im,string(argv[4]),vstrImageFilenames[ni].replace(
+        cv::Mat mask = cv::Mat::ones(h,w,CV_8U);
+        if(argc == 5)
+        {
+            cv::Mat maskRCNN;
+            maskRCNN = MaskNet->GetSegmentation(im,string(argv[4]),vstrImageFilenames[ni].replace(
                         vstrImageFilenames[ni].begin(), vstrImageFilenames[ni].end()-10,""));
-            cv::Mat Mask_dil = Mask.clone();
-            cv::dilate(Mask, Mask_dil, kernel);
-            MaskX = MaskX - Mask_dil;
+            cv::Mat maskRCNNdil = maskRCNN.clone();
+            cv::dilate(maskRCNN, maskRCNNdil, kernel);
+            mask = mask - maskRCNN;
         }
 
         // Pass the image to the SLAM system
-        SLAM.TrackMonocular(im,MaskX,tframe);
+        SLAM.TrackMonocular(im, mask, tframe);
 
 #ifdef COMPILEDWITHC11
         std::chrono::steady_clock::time_point t2 = std::chrono::steady_clock::now();
