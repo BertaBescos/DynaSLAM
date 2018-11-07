@@ -316,11 +316,9 @@ cv::Mat Tracking::GrabImageMonocular(const cv::Mat &im, const cv::Mat &mask, con
             cvtColor(mImGray,mImGray,CV_BGRA2GRAY);
     }
 
-
     cv::Mat _mImGray = mImGray.clone();
     mImGray = mImGray*0;
     _mImGray.copyTo(mImGray,imMask);
-
 
     if(mState==NOT_INITIALIZED || mState==NO_IMAGES_YET)
     {
