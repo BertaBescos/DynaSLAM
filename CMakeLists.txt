@@ -32,11 +32,13 @@ endif()
 
 LIST(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake_modules)
 
+message("PROJECT_SOURCE_DIR: " ${OpenCV_DIR})
 find_package(OpenCV 2.4.11 QUIET)
 if(NOT OpenCV_FOUND)
+    message("OpenCV > 2.4.11 not found.")
     find_package(OpenCV 3.0 QUIET)
     if(NOT OpenCV_FOUND)
-        message(FATAL_ERROR "OpenCV > 2.4.11 not found.")
+        message(FATAL_ERROR "OpenCV > 3.0 not found.")
     endif()
 endif()
 
@@ -47,6 +49,11 @@ endif()
 #      message(FATAL_ERROR "OpenCV > 2.4.3 not found.")
 #   endif()
 #endif()
+
+find_package(Qt5Widgets REQUIRED)
+find_package(Qt5Concurrent REQUIRED)
+find_package(Qt5OpenGL REQUIRED)
+find_package(Qt5Test REQUIRED)
 
 find_package(PythonLibs REQUIRED)
 if (NOT PythonLibs_FOUND)
@@ -139,4 +146,8 @@ target_link_libraries(mono_tum ${PROJECT_NAME})
 add_executable(mono_kitti
 Examples/Monocular/mono_kitti.cc)
 target_link_libraries(mono_kitti ${PROJECT_NAME})
+
+add_executable(mono_carla
+Examples/Monocular/mono_carla.cc)
+target_link_libraries(mono_carla ${PROJECT_NAME})
 
