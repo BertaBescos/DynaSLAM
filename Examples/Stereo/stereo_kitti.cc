@@ -90,8 +90,8 @@ int main(int argc, char **argv)
 
         int h = imLeft.rows;
         int w = imLeft.cols;
-        cv::Mat MaskRightX = 255*cv::Mat::ones(h,w,CV_8U);
-        cv::Mat MaskLeftX = 255*cv::Mat::ones(h,w,CV_8U);
+        cv::Mat MaskRightX = cv::Mat::ones(h,w,CV_8U);
+        cv::Mat MaskLeftX = cv::Mat::ones(h,w,CV_8U);
 
         // Segment out the images
         if (argc == 5){
