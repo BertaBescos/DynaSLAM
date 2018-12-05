@@ -90,24 +90,24 @@ int main(int argc, char **argv)
 
         int h = imLeft.rows;
         int w = imLeft.cols;
-        cv::Mat MaskRightX = cv::Mat::ones(h,w,CV_8U);
-        cv::Mat MaskLeftX = cv::Mat::ones(h,w,CV_8U);
+        cv::Mat maskRight = cv::Mat::ones(h,w,CV_8U);
+        cv::Mat maskLeft = cv::Mat::ones(h,w,CV_8U);
 
         // Segment out the images
         if (argc == 5){
-            cv::Mat MaskLeft, MaskRight;
-            MaskLeft = MaskNet->GetSegmentation(imLeft,string(argv[4])+"/imLeft",vstrImageLeft[ni].replace(0,57,""));
-            MaskRight = MaskNet->GetSegmentation(imRight,string(argv[4])+"/imRight",vstrImageRight[ni].replace(0,58,""));
-            cv::Mat MaskLeft_dil = MaskLeft.clone();
-            cv::dilate(MaskLeft, MaskLeft_dil, kernel);
-            MaskLeftX = MaskLeftX - MaskLeft_dil;
-            cv::Mat MaskRight_dil = MaskRight.clone();
-            cv::dilate(MaskRight, MaskRight_dil, kernel);
-            MaskRightX = MaskRightX - MaskRight_dil;
+            cv::Mat maskLeftRCNN, maskRightRCNN;
+            maskLeftRCNN = MaskNet->GetSegmentation(imLeft,string(argv[4])+"/imLeft",vstrImageLeft[ni].replace(0,57,""));
+            maskRightRCNN = MaskNet->GetSegmentation(imRight,string(argv[4])+"/imRight",vstrImageRight[ni].replace(0,58,""));
+            cv::Mat maskLeftRCNNdil = maskLeftRCNN.clone();
+            cv::dilate(maskLeftRCNN, maskLeftRCNNdil, kernel);
+            maskLeft = maskLeft - maskLeftRCNNdil;
+            cv::Mat maskRightRCNNdil = maskRightRCNN.clone();
+            cv::dilate(maskRightRCNN, maskRightRCNNdil, kernel);
+            maskRight = maskRight - maskRightRCNNdil;
         }
 
         // Pass the images to the SLAM system
-        SLAM.TrackStereo(imLeft,imRight,MaskLeftX,MaskRightX,tframe);
+        SLAM.TrackStereo(imLeft, imRight, maskLeft, maskRight, tframe);
 
 #ifdef COMPILEDWITHC11
         std::chrono::steady_clock::time_point t2 = std::chrono::steady_clock::now();
