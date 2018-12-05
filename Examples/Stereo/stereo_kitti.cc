@@ -96,8 +96,10 @@ int main(int argc, char **argv)
         // Segment out the images
         if (argc == 5){
             cv::Mat maskLeftRCNN, maskRightRCNN;
-            maskLeftRCNN = MaskNet->GetSegmentation(imLeft,string(argv[4])+"/imLeft",vstrImageLeft[ni].replace(0,57,""));
-            maskRightRCNN = MaskNet->GetSegmentation(imRight,string(argv[4])+"/imRight",vstrImageRight[ni].replace(0,58,""));
+            maskLeftRCNN = MaskNet->GetSegmentation(imLeft, string(argv[4])+"/imLeft",
+                    vstrImageLeft[ni].replace(vstrImageLeft[ni].begin(), vstrImageLeft[ni].end() - 10,""));
+            maskRightRCNN = MaskNet->GetSegmentation(imRight, string(argv[4])+"/imRight",
+                    vstrImageRight[ni].replace(vstrImageRight[ni].begin(), vstrImageRight[ni].end() - 10,""));
             cv::Mat maskLeftRCNNdil = maskLeftRCNN.clone();
             cv::dilate(maskLeftRCNN, maskLeftRCNNdil, kernel);
             maskLeft = maskLeft - maskLeftRCNNdil;

@@ -10,6 +10,8 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
+#include <dirent.h>
+#include <errno.h>
 
 namespace DynaSLAM
 {
@@ -61,7 +63,17 @@ cv::Mat SegmentDynObject::GetSegmentation(cv::Mat &image,std::string dir, std::s
         seg = cvt->toMat(py_mask_image).clone();
         seg.cv::Mat::convertTo(seg,CV_8U);//0 background y 1 foreground
         if(dir.compare("no_save")!=0){
-            mkdir(dir.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+            DIR* _dir = opendir(dir.c_str());
+            if (_dir) {closedir(_dir);}
+            else if (ENOENT == errno)
+            {
+                const int check = mkdir(dir.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+                if (check == -1) {
+                    std::string str = dir;
+                    str.replace(str.end() - 6, str.end(), "");
+                    mkdir(str.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+                }
+            }
             cv::imwrite(dir+"/"+name,seg);
         }
     }
