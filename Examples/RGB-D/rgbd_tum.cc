@@ -141,6 +141,7 @@ int main(int argc, char **argv)
         if (argc == 7)
         {
             cv::imwrite(string(argv[6]) + "/rgb/" + vstrImageFilenamesRGB[ni],imRGBOut);
+            vstrImageFilenamesD[ni].replace(0,6,"");
             cv::imwrite(string(argv[6]) + "/depth/" + vstrImageFilenamesD[ni],imDOut);
             cv::imwrite(string(argv[6]) + "/mask/" + vstrImageFilenamesRGB[ni],maskOut);
         }
