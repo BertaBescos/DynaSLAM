@@ -1,6 +1,6 @@
 # DynaSLAM
 
-[[Project]](https://bertabescos.github.io/DynaSLAM/)   [[Paper]](https://arxiv.org/pdf/1806.05620.pdf)
+[[Project]](https://bertabescos.github.io/DynaSLAM/)   [[arXiv]](https://arxiv.org/pdf/1806.05620.pdf)   [[Journal]](https://ieeexplore.ieee.org/document/8421015)
 
 DynaSLAM is a visual SLAM system that is robust in dynamic scenarios for monocular, stereo and RGB-D configurations. Having a static map of the scene allows inpainting the frame background that has been occluded by such dynamic objects.
 
