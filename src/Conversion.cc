@@ -130,12 +130,12 @@ public:
     }
 #else
 
-    bool allocate(UMatData* u, int accessflags, UMatUsageFlags usageFlags){
+    bool allocate(UMatData* u, int accessflags, UMatUsageFlags usageFlags) const = 0 {
 
         if(!u) return false;
         return true;
     }
-    void deallocate(UMatData* data){
+    void deallocate(UMatData* data) const = 0 {
         //PyEnsureGIL gil;
         if( !data->refcount )
             return;
@@ -144,7 +144,7 @@ public:
         Py_DECREF(o);
     }
     UMatData* allocate(int dims, const int* sizes, int type,
-                       void* data, size_t* step, int flags, UMatUsageFlags usageFlags){
+                       void* data, size_t* step, int flags, UMatUsageFlags usageFlags) const = 0 {
         int depth = CV_MAT_DEPTH(type);
         int cn = CV_MAT_CN(type);
 
@@ -185,20 +185,20 @@ public:
         }
         return u;
     }
-    void map(UMatData* data, int accessflags){return;}
-    void unmap(UMatData* data){;}
+    void map(UMatData* data, int accessflags) const {return;}
+    void unmap(UMatData* data) const {;}
     void download(UMatData* data, void* dst, int dims, const size_t sz[],
                   const size_t srcofs[], const size_t srcstep[],
-                  const size_t dststep[]){;}
+                  const size_t dststep[]) const {;}
     void upload(UMatData* data, const void* src, int dims, const size_t sz[],
                 const size_t dstofs[], const size_t dststep[],
-                const size_t srcstep[]){;}
+                const size_t srcstep[]) const {;}
     void copy(UMatData* srcdata, UMatData* dstdata, int dims, const size_t sz[],
               const size_t srcofs[], const size_t srcstep[],
-              const size_t dstofs[], const size_t dststep[], bool sync){;}
+              const size_t dstofs[], const size_t dststep[], bool sync) const {;}
 
     // default implementation returns DummyBufferPoolController
-    BufferPoolController* getBufferPoolController(const char* id = NULL){return 0;}
+    BufferPoolController* getBufferPoolController(const char* id = NULL) const {return 0;}
 #endif
 };
 
