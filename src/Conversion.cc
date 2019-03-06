@@ -130,12 +130,12 @@ public:
     }
 #else
 
-    bool allocate(UMatData* u, int accessflags, UMatUsageFlags usageFlags) const = 0 {
+    bool allocate(UMatData* u, int accessflags, UMatUsageFlags usageFlags) const {
 
         if(!u) return false;
         return true;
     }
-    void deallocate(UMatData* data) const = 0 {
+    void deallocate(UMatData* data) const {
         //PyEnsureGIL gil;
         if( !data->refcount )
             return;
@@ -144,7 +144,7 @@ public:
         Py_DECREF(o);
     }
     UMatData* allocate(int dims, const int* sizes, int type,
-                       void* data, size_t* step, int flags, UMatUsageFlags usageFlags) const = 0 {
+                       void* data, size_t* step, int flags, UMatUsageFlags usageFlags) const {
         int depth = CV_MAT_DEPTH(type);
         int cn = CV_MAT_CN(type);
 
