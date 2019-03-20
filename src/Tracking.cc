@@ -236,6 +236,8 @@ cv::Mat Tracking::GrabImageRGBD(const cv::Mat &imRGB,const cv::Mat &imD, cv::Mat
 
     imRGBOut = _imRGB;
 
+
+
     if (!mCurrentFrame.mTcw.empty())
     {
         mGeometry.GeometricModelCorrection(mCurrentFrame,imDepth,imMask);
@@ -245,7 +247,10 @@ cv::Mat Tracking::GrabImageRGBD(const cv::Mat &imRGB,const cv::Mat &imD, cv::Mat
 
     Track();
 
-    mGeometry.InpaintFrames(mCurrentFrame, mImGray, imDepth, imRGBOut, imMask);
+    if (!mCurrentFrame.mTcw.empty())
+    {
+        mGeometry.InpaintFrames(mCurrentFrame, mImGray, imDepth, imRGBOut, imMask);
+    }
 
     mGeometry.GeometricModelUpdateDB(mCurrentFrame);
 
