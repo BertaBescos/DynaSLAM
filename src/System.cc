@@ -456,6 +456,32 @@ void System::SaveKeyFrameTrajectoryTUM(const string &filename)
     cout << endl << "trajectory saved!" << endl;
 }
 
+void System::SaveDetectedLoops(const string &filename)
+{
+    cout << endl << "Saving detected loops to " << filename << " ..." << endl;
+
+    ofstream f;
+    f.open(filename.c_str());
+    f << fixed;
+
+    vector<pair<KeyFrame*, KeyFrame*> > mvpMatchedLoop = mpLoopCloser->mvpMatchedLoop;
+
+    for(size_t i=0; i<mvpMatchedLoop.size(); i++)
+    {
+        KeyFrame* pCurrentKF = mvpMatchedLoop[i].first;
+        KeyFrame* pMatchedKF = mvpMatchedLoop[i].second;
+
+        if(pCurrentKF->isBad() || pMatchedKF->isBad())
+            continue;
+
+        f << setprecision(6) << pCurrentKF->mTimeStamp << setprecision(6) << " " << pMatchedKF->mTimeStamp << endl;
+
+    }
+
+    f.close();
+    cout << endl << "detected loops saved!" << endl;
+}
+
 void System::SaveTrajectoryKITTI(const string &filename)
 {
     cout << endl << "Saving camera trajectory to " << filename << " ..." << endl;

@@ -140,7 +140,8 @@ int main(int argc, char **argv)
     cout << "mean tracking time: " << totaltime/nImages << endl;
 
     // Save camera trajectory
-    SLAM.SaveKeyFrameTrajectoryTUM("KeyFrameTrajectory.txt");    
+    SLAM.SaveKeyFrameTrajectoryTUM("KeyFrameTrajectory.txt");
+    SLAM.SaveDetectedLoops("DetectedLoops.txt");
 
     return 0;
 }
@@ -160,7 +161,7 @@ void LoadImages(const string &strPathToSequence, vector<string> &vstrImageFilena
             ss << s;
             double t;
             ss >> t;
-            vTimestamps.push_back(0.1*t);
+            vTimestamps.push_back(t);
         }
     }
 
