@@ -456,6 +456,7 @@ void System::SaveKeyFrameTrajectoryTUM(const string &filename)
     cout << endl << "trajectory saved!" << endl;
 }
 
+/*
 void System::SaveDetectedLoops(const string &filename)
 {
     cout << endl << "Saving detected loops to " << filename << " ..." << endl;
@@ -481,6 +482,7 @@ void System::SaveDetectedLoops(const string &filename)
     f.close();
     cout << endl << "detected loops saved!" << endl;
 }
+*/
 
 void System::SaveTrajectoryKITTI(const string &filename)
 {
