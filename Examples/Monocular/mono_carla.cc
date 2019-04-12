@@ -160,7 +160,7 @@ void LoadImages(const string &strPathToSequence, vector<string> &vstrImageFilena
             ss << s;
             double t;
             ss >> t;
-            vTimestamps.push_back(t);
+            vTimestamps.push_back(0.1*t);
         }
     }
 
