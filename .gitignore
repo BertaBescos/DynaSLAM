@@ -35,3 +35,12 @@ KeyFrameTrajectory.txt
 CMakeLists.txt.user
 
 EvaluateTrajectory/
+
+resultsKITTI/
+runDynaSLAM.sh
+runDynaSLAM_.sh
+
+Examples/Monocular/CARLA_KITTI00-02.yaml
+Examples/Monocular/CARLA_KITTI03.yaml
+Examples/Monocular/CARLA_KITTI04-12.yaml
+
