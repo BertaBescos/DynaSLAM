@@ -338,6 +338,45 @@ cv::Mat Tracking::GrabImageMonocular(const cv::Mat &im, const cv::Mat &mask, con
 
 }
 
+cv::Mat Tracking::GrabImageMonocular(const cv::Mat &im, const cv::Mat &mask, const double &timestamp, const cv::Mat& dyn_im)
+{
+    mImGray = im;
+    cv::Mat imMask = mask;
+
+    mImDynamicGray = dyn_im;
+
+    if(mImGray.channels()==3)
+    {
+        if(mbRGB)
+            cvtColor(mImGray,mImGray,CV_RGB2GRAY);
+        else
+            cvtColor(mImGray,mImGray,CV_BGR2GRAY);
+    }
+    else if(mImGray.channels()==4)
+    {
+        if(mbRGB)
+            cvtColor(mImGray,mImGray,CV_RGBA2GRAY);
+        else
+            cvtColor(mImGray,mImGray,CV_BGRA2GRAY);
+    }
+
+    cv::Mat _mImGray = mImGray.clone();
+    mImGray = mImGray*0;
+    _mImGray.copyTo(mImGray,imMask);
+
+    if(mState==NOT_INITIALIZED || mState==NO_IMAGES_YET)
+    {
+        mCurrentFrame = Frame(mImGray,imMask,timestamp,mpIniORBextractor,mpORBVocabulary,mK,mDistCoef,mbf,mThDepth);
+    }
+    else
+        mCurrentFrame = Frame(mImGray,imMask,timestamp,mpORBextractorLeft,mpORBVocabulary,mK,mDistCoef,mbf,mThDepth);
+
+    Track();
+
+    return mCurrentFrame.mTcw.clone();
+
+}
+
 void Tracking::Track()
 {
     if(mState==NO_IMAGES_YET)

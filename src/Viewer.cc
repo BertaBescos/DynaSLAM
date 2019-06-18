@@ -78,6 +78,8 @@ void Viewer::Run()
 
     cv::namedWindow("DynaSLAM: Current Frame");
 
+    cv::namedWindow("DynaSLAM: Dynamic Frame");
+
     bool bFollow = true;
     bool bLocalizationMode = false;
 
@@ -125,6 +127,10 @@ void Viewer::Run()
 
         cv::Mat im = mpFrameDrawer->DrawFrame();
         cv::imshow("DynaSLAM: Current Frame",im);
+
+        cv::Mat im_dyn = mpFrameDrawer->GetDynamicFrame();
+        cv::imshow("DynaSLAM: Dynamic Frame", im_dyn);
+
         cv::waitKey(mT);
 
         if(menuReset)

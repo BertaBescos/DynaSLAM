@@ -62,6 +62,7 @@ int main(int argc, char **argv)
 
     // Main loop
     cv::Mat im;
+    cv::Mat im_dyn;
 
     // Dilation settings
     int dilation_size = 15;
@@ -74,6 +75,10 @@ int main(int argc, char **argv)
         // Read image from file
         im = cv::imread(vstrImageFilenames[ni],CV_LOAD_IMAGE_UNCHANGED);
         double tframe = vTimestamps[ni];
+
+        std::size_t pos = vstrImageFilenames[ni].find("output_ORB");
+        std::string path_dynamic_image = vstrImageFilenames[ni].replace(vstrImageFilenames[ni].begin() + pos, vstrImageFilenames[ni].begin() + pos + 10, "input");
+        im_dyn = cv::imread(path_dynamic_image,CV_LOAD_IMAGE_UNCHANGED);
 
         if(im.empty())
         {
@@ -102,7 +107,12 @@ int main(int argc, char **argv)
         }
 
         // Pass the image to the SLAM system
-        SLAM.TrackMonocular(im, mask, tframe);
+        SLAM.TrackMonocular(im, mask, tframe, im_dyn);
+
+        if (ni == 0 || ni == 1) {
+            std::chrono::seconds duration(15);
+            std::this_thread::sleep_for(duration);
+        }
 
 #ifdef COMPILEDWITHC11
         std::chrono::steady_clock::time_point t2 = std::chrono::steady_clock::now();

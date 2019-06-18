@@ -52,6 +52,7 @@ public:
     cv::Mat GrabImageRGBD(const cv::Mat &imRGB, const cv::Mat &imD, cv::Mat &mask, const double &timestamp, cv::Mat &imRGBOut, cv::Mat &imDOut, cv::Mat &maskOut);
     cv::Mat GrabImageRGBD(const cv::Mat &imRGB, const cv::Mat &imD, cv::Mat &mask, const double &timestamp);
     cv::Mat GrabImageMonocular(const cv::Mat &im, const cv::Mat &mask, const double &timestamp);
+    cv::Mat GrabImageMonocular(const cv::Mat &im, const cv::Mat &mask, const double &timestamp, const cv::Mat& dyn_im);
 
     void SetLocalMapper(LocalMapping* pLocalMapper);
     void SetLoopClosing(LoopClosing* pLoopClosing);
@@ -86,6 +87,7 @@ public:
     // Current Frame
     Frame mCurrentFrame;
     cv::Mat mImGray;
+    cv::Mat mImDynamicGray;
 
     // Initialization Variables (Monocular)
     std::vector<int> mvIniLastMatches;

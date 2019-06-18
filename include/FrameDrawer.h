@@ -48,6 +48,8 @@ public:
     // Draw last processed frame.
     cv::Mat DrawFrame();
 
+    inline cv::Mat GetDynamicFrame() const {return mDynamicIm;}
+
 protected:
 
     void DrawTextInfo(cv::Mat &im, int nState, cv::Mat &imText);
@@ -62,6 +64,9 @@ protected:
     vector<cv::KeyPoint> mvIniKeys;
     vector<int> mvIniMatches;
     int mState;
+
+    // Dynamic frame
+    cv::Mat mDynamicIm;
 
     Map* mpMap;
 
